@@ -14,22 +14,26 @@
     document.write(num);
 
 
-// La declaració es tal qual la de Java.
-// També hi ha la opció
-let array = [];
-array[0] = 1;
-array[1] = 'a';
-// Per ser "puristes", posam var (variable) cada cop
-for (var i in array) {
+    // La declaració es tal qual la de Java ->  for (var i=0; i< 10; i++)
+    // També hi ha la opció
+    let array = [];
+    array[0] = 1;
+    array[1] = 'a';
+    // Per ser "puristes", posam var (variable) cada cop
+    for (var i in array) {
       document.write(array[i]); //Imprimir a la pagina web
       console.log(array[i]); //Imprimir per consola
-}
+    }
 
-//Inclús. El métode forEach() executa la funció indicada una vegada per cada
-// element del array.
-const array1 = ['a', 'b', 'c'];
-array1.forEach(element => document.write(element));
-
+    //Inclús. El métode forEach() executa la funció indicada una vegada per cada
+    // element del array.
+    const array1 = ['a', 'b', 'c'];
+    array1.forEach(element => document.write(element));
   </script>
+
+  <form action= "https://www.google.com">
+    <input type="submit" value="Google" onclick="return confirm ('La pàgina web et redigirá a Google')">
+
+  </form>
 </body>
 </html>
