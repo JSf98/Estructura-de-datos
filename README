@@ -1,0 +1,6 @@
+/** Projecte d'Alumne colaborador de la Universitat de les Illes Balears. 
+* Aquest es basa en la creació de diferents estructures de dades les quals estiran implementades a partir de javascript (front-end).
+* A partir de Django, es farà una petita gestió de back-end amb el qual es durà a terme una petit menú per a poder accedir a través
+* de les diferents estructures de dades. 
+* L'usuari podrà interactuar amb les diferents estructures de manera que aquest podrà veure els diferents comportaments d'aquests: 
+* insersió de nodes, elimanció, recorreguts, etc. 
