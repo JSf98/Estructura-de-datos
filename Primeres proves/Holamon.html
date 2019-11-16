@@ -1,12 +1,35 @@
 <html>
 <head>
+  <title> Primeres proves </title>
+  <meta charset="utf-8">
 </head>
 <body>
   <script src = "h.js"></script>
   <script type="text/javascript">
-    let missatge = new H();
+    let missatge = new H(); //En lloc de 'let', es podria posar 'var'
     missatge.print();
-  //  alert('Hola mon!'); //Pop-up
+    //  alert('Hola mon!'); //Pop-up
+
+    let num = 1;
+    document.write(num);
+
+
+// La declaració es tal qual la de Java.
+// També hi ha la opció
+let array = [];
+array[0] = 1;
+array[1] = 'a';
+// Per ser "puristes", posam var (variable) cada cop
+for (var i in array) {
+      document.write(array[i]); //Imprimir a la pagina web
+      console.log(array[i]); //Imprimir per consola
+}
+
+//Inclús. El métode forEach() executa la funció indicada una vegada per cada
+// element del array.
+const array1 = ['a', 'b', 'c'];
+array1.forEach(element => document.write(element));
+
   </script>
 </body>
 </html>
