@@ -6,14 +6,14 @@
 <body>
   <div>
     <div>
-      <textarea id="Area" rows="8" cols="80"></textarea>
+      <textarea readonly id="Area" rows="1" cols="80"></textarea>
     </div>
     <div>
       <select id="Botons_seleccio" multiple></select>
 
       <button onclick="empilar()">Empila</button>
       <button onclick="pila.desempila()">Desempila</button>
-      <button onclick="area.value = pila.cima()">Cima</button>
+      <button onclick="pila.cima()">Cima</button>
       <button onclick="pila.buida()">Buida</button>
     </div>
   </div>
