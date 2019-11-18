@@ -13,22 +13,30 @@ class PilaPunter { //PILA FIFO
     this.top.setSeg(n);
   }
 
-  //Elimina l'element que esta a la cima de la pila.
-  desempila(){
-    this.top.setSeg(this.top.getSeg().getSeg());
-  }
-
-  //Retorna l'element que esta a la cima de la pila, sense borrar-lo
-  cima(){
-    return this.top.getSeg().getElem();
-  }
-
   // Retorna 'true' en el cas de que la pila esta buida. 'False' en el cas contrari.
   estabuida(){
     if (this.top.getSeg() == null) {
       return true;
     }
     return false;
+  }
+
+  //Elimina l'element que esta a la cima de la pila.
+  desempila(){
+    if (this.top.getSeg() == null){
+      alert("LA PILA ES BUIDA!");
+    }else{
+      this.top.setSeg(this.top.getSeg().getSeg());
+    }
+  }
+
+  //Retorna l'element que esta a la cima de la pila, sense borrar-lo
+  cima(){
+    if (this.top.getSeg() == null){
+      alert("LA PILA ES BUIDA!");
+    }else{
+      return this.top.getSeg().getElem();
+    }
   }
 
 }

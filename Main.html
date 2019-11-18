@@ -4,19 +4,34 @@
   <meta charset="utf-8">
 </head>
 <body>
+  <div>
+    <div>
+      <textarea id="Area" rows="8" cols="80"></textarea>
+    </div>
+    <div>
+      <select id="Botons_seleccio" multiple></select>
+
+      <button onclick="empilar()">Empila</button>
+      <button onclick="pila.desempila()">Desempila</button>
+      <button onclick="area.value = pila.cima()">Cima</button>
+      <button onclick="pila.buida()">Buida</button>
+    </div>
+  </div>
+
   <script src = "PilaPunters.js "> </script>
   <script src = "Node.js "> </script>
   <script type="text/javascript">
+
     let pila = new PilaPunter();
-    var a = 1;
-    var b = 2;
-    pila.empilar(1);
-    pila.empilar(2);
-    var cima1 = pila.cima();
-    document.write(cima1);
-    pila.desempila();
-    var cima2 = pila.cima();
-    document.write(cima2);
+    let area = document.querySelector('#Area');
+
+    function empilar() {
+			let elem = prompt("Insereix element");
+			if(elem == null) return;
+			pila.empilar(elem);
+		}
+
   </script>
+
 </body>
 </html>
