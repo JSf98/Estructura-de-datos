@@ -41,12 +41,13 @@ class PilaPunter { //PILA FIFO
 
   printPila(){
     let node = this.top;
-    let s;
-    for (var i = 0; node.getSeg() != null; i++) {
-      s += node.getSeg().getElem();
-      s += " ";
+    let s = "[ ";
+    while(node.getSeg() != null) {
       node = node.getSeg();
+      s += node.getElem();
+      s += " ";
     }
+    s += "]";
     return s;
   }
 }
