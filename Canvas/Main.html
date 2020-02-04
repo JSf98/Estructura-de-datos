@@ -1,0 +1,39 @@
+<html>
+<head>
+  <title> Main </title>
+  <meta charset="utf-8">
+</head>
+<body>
+  <div>
+    <div>
+      <canvas id="mycanvas" width="400" height="400" style="border:1px solid #d3d3d3;">
+        Your browser does not support the HTML5 canvas tag.</canvas>
+    </div>
+    <div>
+      <select id="Botons_seleccio" multiple></select>
+
+      <button onclick="empilar()">Empila</button>
+      <button onclick="pila.desempila()">Desempila</button>
+      <button onclick="pila.printPila()">Cima</button>
+      <button onclick="pila.buida()">Buida</button>
+    </div>
+  </div>
+
+  <!-- IMPORTS -->
+  <script src = "PilaPunters.js "> </script>
+  <script src = "Node.js "> </script>
+  <script>
+
+    //Passam per paràmetre el canvas
+    let pila = new PilaPunter("mycanvas");
+
+    function empilar() {
+			let elem = prompt("Insereix element");
+			if(elem == null) return;
+			pila.empilar(elem);
+		}
+
+  </script>
+
+</body>
+</html>
