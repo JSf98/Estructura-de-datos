@@ -6,15 +6,15 @@
 <body>
   <div>
     <div>
-      <canvas id="mycanvas" width="400" height="400" style="border:1px solid #d3d3d3;">
-        Your browser does not support the HTML5 canvas tag.</canvas>
+      <canvas id="mycanvas" width="1000" height="200" style="border:1px solid #d3d3d3;">
+        El teu navegador no soporta el HTML5 canvas.</canvas>
     </div>
     <div>
       <select id="Botons_seleccio" multiple></select>
 
       <button onclick="empilar()">Empila</button>
       <button onclick="pila.desempila()">Desempila</button>
-      <button onclick="pila.printPila()">Cima</button>
+      <button onclick="pila.cima()">Cima</button>
       <button onclick="pila.buida()">Buida</button>
     </div>
   </div>
@@ -29,7 +29,10 @@
 
     function empilar() {
 			let elem = prompt("Insereix element");
-			if(elem == null) return;
+      if(elem == null) return;
+      if (elem.length > 10) {
+        elem = elem.substring(0,9);
+      }
 			pila.empilar(elem);
 		}
 
