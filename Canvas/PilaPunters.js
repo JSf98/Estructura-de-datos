@@ -4,9 +4,13 @@ class PilaPunter { //PILA FIFO
     //Coordenades inicials
      this.posx =10;
      this.posy =70;
-     this.disSep = 70; //Distancia de separació
+
+     //Distancia de separació entre nodes
+     this.disSep = 70;
+
      //Serà un Node on elem es TOP (simbòlic)
      this.top = new Node("TOP", null, this.posx, this.posy);
+
      //Inicialització del canvas
      this.canvas = document.getElementById(elementId);
      this.ctx = this.canvas.getContext("2d");
@@ -14,7 +18,7 @@ class PilaPunter { //PILA FIFO
   }
 
   pintaTop(n){
-    if(n.getSeg() != null){ //Si té següent
+    if(n.getSeg() != null){ //Si té següent, pintam una fletxa
       this.drawArrow(n.getposx()+11,n.getposy(),n.getSeg().getposx()+13,n.getSeg().getposy()+26, "first", 15, 6);
     }
     this.ctx.beginPath();
@@ -107,7 +111,8 @@ class PilaPunter { //PILA FIFO
   }
 
   printPila(){
-    this.canvas.width=this.canvas.width; // Borram contingut donant el mateix width al nostre canvas
+    // Borram contingut donant el mateix width al nostre canvas
+    this.canvas.width=this.canvas.width;
     if(this.estabuida()){
       alert("LA PILA ÉS BUIDA!");
     }else{
