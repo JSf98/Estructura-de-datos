@@ -1,9 +1,21 @@
 class PilaPunter { //PILA FIFO
 
   constructor(elementId){
-    //Coordenades inicials
-     this.posx =10;
-     this.posy =70;
+    //Inicialització del canvas
+     this.canvas = document.getElementById(elementId);
+     this.ctx = this.canvas.getContext("2d");
+
+     this.cwidth = this.canvas.getAttribute('width');
+     this.cheight = this.canvas.getAttribute('height');
+
+     //Coordenades inicials
+     var offsetx = -this.canvas.getAttribute('width')/2.2;
+     var offsety = 0;
+     //Situades al centre amb un petit offset
+     this.posx = this.cwidth/2 + offsetx;
+     this.posy = this.cheight/2 + offsety;
+     //Coordenada 'x' que anirem actualitzant a mesura que pintam la pila
+     this.posxaux = this.posx;
 
      //Distancia de separació entre nodes
      this.disSep = 70;
@@ -11,9 +23,6 @@ class PilaPunter { //PILA FIFO
      //Serà un Node on elem es TOP (simbòlic)
      this.top = new Node("TOP", null, this.posx, this.posy);
 
-     //Inicialització del canvas
-     this.canvas = document.getElementById(elementId);
-     this.ctx = this.canvas.getContext("2d");
      this.pintaTop(this.top);
   }
 

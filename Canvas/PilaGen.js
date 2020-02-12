@@ -7,18 +7,18 @@ class PilaGen { //PILA GENÈRICA
 
     this.limitCaselles = limit;
 
-    //Coordenades inicials
-    var offsetx = -50;
-    var offsety = 120;
-    //Situades al centre amb un petit offset
-    this.posx = this.canvas.getAttribute('height') /2 + offsetx;
-    this.posy = this.canvas.getAttribute('width') /2 + offsety;
-    //Coordenada 'y' que anirem actualitzant a mesura que pintam la pila
-    this.posyaux = this.posy;
-
     //Tamany dels quadrats
     this.qaltura = 50;
     this.qample = 100;
+
+    //Coordenades inicials
+    var offsetx = -this.qample/2;
+    var offsety = this.canvas.getAttribute('height')/3;
+    //Situades al centre amb un petit offset
+    this.posx = this.canvas.getAttribute('width') /2 + offsetx;
+    this.posy = this.canvas.getAttribute('height') /2 + offsety;
+    //Coordenada 'y' que anirem actualitzant a mesura que pintam la pila
+    this.posyaux = this.posy;
 
     //Distancia entre quadrats
     this.disSep = -this.qaltura;
