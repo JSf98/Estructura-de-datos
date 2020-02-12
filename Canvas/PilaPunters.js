@@ -16,9 +16,14 @@ class PilaPunter { //PILA FIFO
      this.posy = this.cheight/2 + offsety;
      //Coordenada 'x' que anirem actualitzant a mesura que pintam la pila
      this.posxaux = this.posx;
+     this.posyaux = this.posy;
 
      //Distancia de separació entre nodes
      this.disSep = 70;
+
+     //Tamany dels quadrats
+     this.qaltura = 25;
+     this.qample = 25;
 
      //Serà un Node on elem es TOP (simbòlic)
      this.top = new Node("TOP", null, this.posx, this.posy);
@@ -27,13 +32,14 @@ class PilaPunter { //PILA FIFO
   }
 
   pintaTop(n){
+    var radi = 5;
     if(n.getSeg() != null){ //Si té següent, pintam una fletxa
-      this.drawArrow(n.getposx()+11,n.getposy(),n.getSeg().getposx()+13,n.getSeg().getposy()+26, "first", 15, 6);
+      this.drawArrow(n.getposx()+this.qample/2,n.getposy(),n.getSeg().getposx()+this.qample/2,n.getSeg().getposy()+this.qaltura, "first", 15, 6);
     }
     this.ctx.beginPath();
     this.ctx.fillStyle = "#000000";
-    this.ctx.fillText(n.getElem(), n.getposx()+3, n.getposy()+20); //Pintam el texte
-    this.ctx.arc(n.getposx()+13,n.getposy(), 5, 0, 2 * Math.PI);
+    this.ctx.fillText(n.getElem(), n.getposx()+this.qample/2 - this.ctx.measureText(n.getElem()).width/2, n.getposy()+ radi*3); //Pintam el texte
+    this.ctx.arc(n.getposx()+this.qample/2,n.getposy(), radi, 0, 2 * Math.PI);
     this.ctx.fill();
   }
 
@@ -41,34 +47,32 @@ class PilaPunter { //PILA FIFO
     this.ctx.beginPath();
     this.ctx.strokeStyle = "#000000";
     this.ctx.fillStyle = "#000000";
-    this.ctx.fillText(n.getElem(), n.getposx()+6, n.getposy()-5); //Pintam el texte
-    this.ctx.strokeRect(n.getposx(),n.getposy(),25,25); //Dibuixa el contorn d'un rectangle
-    //this.ctx.fillRect(n.getposx(),n.getposy(),25,25); //Dibuixa un rectangle ple
+    this.ctx.fillText(n.getElem(), n.getposx()+this.qample/2-this.ctx.measureText(n.getElem()).width/2, n.getposy()-this.qaltura/3); //Pintam el texte
+    this.ctx.strokeRect(n.getposx(),n.getposy(),this.qample,this.qaltura); //Dibuixa el contorn d'un rectangle
 
     if(n.getSeg() != null){ //Si té següent
-      var num = 12;
-      this.drawArrow(n.getposx()+num,n.getposy()+num,n.getSeg().getposx()+26,n.getSeg().getposy()+num, "next",0,-2);
+      this.drawArrow(n.getposx()+this.qample/2,n.getposy()+this.qaltura/2, n.getSeg().getposx()+this.qample,n.getSeg().getposy()+this.qaltura/2, "next",0,-2);
     }
   }
 
   buida(){
     this.top.setSeg(null);
     //Reseteja valors inicials
-    this.posx =10;
-    this.posy =50;
-    this.top.setposx(10);
-    this.top.setposy(50);
+    this.posxaux = this.posx;
+    this.posyaux = this.posy;
+    this.top.setposx(this.posxaux);
+    this.top.setposy(this.posyaux);
     this.canvas.width=this.canvas.width;
     this.pintaTop(this.top);
   }
 
   empilar(elem){
-    this.posx = this.posx + this.disSep;
+    this.posxaux = this.posxaux + this.disSep;
     //Quan cream el nou node, ja li deim que el seu next, es el next del TOP
-    let n = new Node(elem, this.top.getSeg(), this.posx, this.posy);
+    let n = new Node(elem, this.top.getSeg(), this.posxaux, this.posyaux);
     this.top.setSeg(n);
-    this.top.setposx(this.posx);
-    this.top.setposy(this.posy+60);
+    this.top.setposx(this.posxaux);
+    this.top.setposy(this.posy+this.disSep);
     this.printPila();
   }
 
@@ -90,17 +94,17 @@ class PilaPunter { //PILA FIFO
       if(aux == null){
         //Significa que només hi ha un fill per eliminar
         this.top.setSeg(null);
-        this.posx =10;
-        this.posy =50;
-        this.top.setposx(10);
-        this.top.setposy(50);
+        this.posxaux = this.posx;
+        this.posyaux = this.posy;
+        this.top.setposx(this.posx);
+        this.top.setposy(this.posy);
         this.canvas.width=this.canvas.width;
         this.pintaTop(this.top);
       }else{
         this.top.setSeg(aux);
         this.top.setposx(aux.getposx());
         //Actualitzam el posx per poder seguir pintant correctament
-        this.posx = this.posx - this.disSep;
+        this.posxaux = this.posxaux - this.disSep;
         this.printPila();
       }
     }
@@ -114,7 +118,7 @@ class PilaPunter { //PILA FIFO
       this.printPila();
       this.ctx.strokeStyle = "#32a852";
       this.ctx.lineWidth = 3;
-      this.ctx.strokeRect(this.top.getSeg().getposx(),this.top.getSeg().getposy(),25,25);
+      this.ctx.strokeRect(this.top.getSeg().getposx(),this.top.getSeg().getposy(),this.qample, this.qaltura);
       return this.top.getSeg().getElem();
     }
   }
@@ -144,7 +148,7 @@ class PilaPunter { //PILA FIFO
     //starting path of the arrow from the start square to the end square and drawing the stroke
     this.ctx.beginPath();
     this.ctx.moveTo(fromx, fromy);
-    this.ctx.arc(fromx, fromy, 2, 0, 2 * Math.PI);
+    //Si es vol dibuixar un cercle, es aquí
     this.ctx.stroke();
     this.ctx.lineTo(tox, toy);
     this.ctx.strokeStyle = "#cc0000";
