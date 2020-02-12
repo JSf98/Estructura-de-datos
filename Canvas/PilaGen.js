@@ -1,9 +1,11 @@
 class PilaGen { //PILA GENÈRICA
 
-  constructor(elementId){
+  constructor(elementId, limit){
     //Inicialització del canvas
     this.canvas = document.getElementById(elementId);
     this.ctx = this.canvas.getContext("2d");
+
+    this.limitCaselles = limit;
 
     //Coordenades inicials
     var offsetx = -50;
@@ -19,10 +21,11 @@ class PilaGen { //PILA GENÈRICA
     this.qample = 100;
 
     //Distancia entre quadrats
-    this.disSep = -50;
+    this.disSep = -this.qaltura;
 
     //Inicialització de la pila
     this.stack = [];
+    this.pintaBase();
   }
 
   empilar(elem){
@@ -37,8 +40,11 @@ class PilaGen { //PILA GENÈRICA
   }
 
   desempila(){
-    if (this.estabuida()) {
+    if(this.stack.length == 0){
       //ERROR
+    }else if (this.stack.length == 1){
+      this.posyaux = this.posy;
+      this.stack.pop();
     }else{
       //Actualitzam la posy
       this.posyaux = this.posyaux - this.disSep;
@@ -74,6 +80,17 @@ class PilaGen { //PILA GENÈRICA
     this.canvas.width = this.canvas.getAttribute('width');
     for (var i = 0; i < this.stack.length; i++) {
       this.pintaNode(this.stack[i]);
+    }
+    this.pintaBase();
+  }
+
+  pintaBase(){
+    this.ctx.beginPath();
+    this.ctx.fillStyle = "#000000";
+    var posaux = this.posy;
+    for (var i = 0; i < this.limitCaselles; i++){
+        this.ctx.strokeRect(this.posx,posaux,this.qample+1,this.qaltura+1);
+        posaux -= this.qaltura;
     }
   }
 

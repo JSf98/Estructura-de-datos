@@ -34,27 +34,36 @@
   <script src = "PilaGen.js "> </script>
   <script src = "Node.js "> </script>
   <script>
-
     //Passam per paràmetre el canvas
+    var limitCaselles = 7;
+    var comptador = 0;
     let pila = new PilaPunter("mycanvas");
-    let pilagen = new PilaGen("mycanvas2");
+    let pilagen = new PilaGen("mycanvas2", this.limitCaselles);
 
     function empilar() {
-			let elem = prompt("Insereix element");
-      if(elem == null) return;
-      if (elem.length > 10) {
-        elem = elem.substring(0,9);
+      if(this.comptador == this.limitCaselles){
+          alert("Limit casselles: " + this.limitCaselles);
+      }else{
+        let elem = prompt("Insereix element");
+        this.comptador++;
+        if(elem == null) return;
+        //Si la paraula es massa llarga, la tallam
+        if (elem.length > 10) {
+          elem = elem.substring(0,9);
+        }
+        pilagen.empilar(elem);
+  			pila.empilar(elem);
       }
-      pilagen.empilar(elem);
-			pila.empilar(elem);
 		}
 
     function desempila(){
+      this.comptador--;
       pila.desempila();
       pilagen.desempila();
     }
 
     function buida(){
+      this.comptador = 0;
       pila.buida();
       pilagen.buida();
     }
