@@ -1,0 +1,31 @@
+----------------------Front
+Javascript <- 
+Buho <-
+ReatJs
+Angular
+
+
+------------------------Back
+Django-->python 
+php
+j2ee-->java
+
+-------------------------------------------------- BD
+Usuari 
+	id, user, password
+
+Estructura 
+	Id, nom, url_img, categoria (fk), url_estructura, descripcio 
+
+Categoria
+	id, nom, descripcio  
+
+
+
+
+
+
+
+
+
+
