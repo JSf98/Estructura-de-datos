@@ -1,0 +1,49 @@
+CREATE DATABASE estructures;
+
+USE estructures;
+
+CREATE TABLE tipusperfil(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tipus CHAR(10)
+);
+
+CREATE TABLE usuari(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user CHAR(20),
+  password CHAR(20),
+  tipus INT,
+  FOREIGN KEY (tipus) REFERENCES tipusperfil (id)
+);
+
+CREATE TABLE categoria(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nom CHAR(20),
+  descripcio CHAR(255)
+);
+
+CREATE TABLE estructura(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nom CHAR(20),
+  url_img CHAR(20),
+  url_estructura CHAR(20),
+  categoria INT,
+  descripcio CHAR(255),
+  FOREIGN KEY (categoria) REFERENCES categoria (id)
+);
+
+INSERT INTO tipusperfil (tipus) values
+("admin"),("noadmin");
+
+INSERT INTO usuari (user,password,tipus) values
+("admin", "somuib3040", 1),("alumne","alumne", 2);
+
+INSERT INTO categoria (nom,descripcio) values
+("Estructura lineal","Tenen en comú que l'ordre de consulta y eliminació
+de la informació depenen exclusivament del seu ordre d'inserció (LIFO o FIFO).
+Les podem imaginar com una cadena lineal on el que varia es l'extrem desde on
+l'inserim, consultam o eliminam la informació.");
+
+INSERT INTO estructura (nom, url_estructura,categoria,descripcio) values
+("Pila FIFO","PilaEnllaçada.html",1,"El elements s'obtenen en l'ordre d'insersió.
+Tenim un marcador TOP que sempre marca la cima. S'han de tenir en comtpe errors dels tipus
+desempilar quan no hi ha elements, quan es vol mirar la cima i la pila està buida");
