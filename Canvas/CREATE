@@ -31,6 +31,19 @@ CREATE TABLE estructura(
   FOREIGN KEY (categoria) REFERENCES categoria (id)
 );
 
+CREATE TABLE opcio(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  titol CHAR(30),
+  url CHAR(10)
+);
+
+CREATE TABLE privilegi(
+  perfil INT,
+  opcio INT,
+  FOREIGN KEY (perfil) REFERENCES tipusperfil(id),
+  FOREIGN KEY (opcio) REFERENCES opcio(id)
+);
+
 INSERT INTO tipusperfil (tipus) values
 ("admin"),("noadmin");
 
@@ -47,3 +60,10 @@ INSERT INTO estructura (nom, url_estructura,categoria,descripcio) values
 ("Pila FIFO","PilaEnllaçada.html",1,"El elements s'obtenen en l'ordre d'insersió.
 Tenim un marcador TOP que sempre marca la cima. S'han de tenir en comtpe errors dels tipus
 desempilar quan no hi ha elements, quan es vol mirar la cima i la pila està buida");
+
+INSERT INTO opcio(titol,url) VALUES
+("Inserir nova estructura","alta.php"),
+("Entra com alumne","alumne.php");
+
+INSERT INTO privilegi (perfil,opcio) VALUES
+(1,1),(1,2),(2,2);
