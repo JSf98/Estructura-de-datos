@@ -28,6 +28,8 @@ class PilaPunter { //PILA FIFO
      //Serà un Node on elem es TOP (simbòlic)
      this.top = new Node("TOP", null, this.posx, this.posy);
 
+     this.nelements = 0;
+
      this.pintaTop(this.top);
   }
 
@@ -62,6 +64,7 @@ class PilaPunter { //PILA FIFO
     this.posyaux = this.posy;
     this.top.setposx(this.posxaux);
     this.top.setposy(this.posyaux);
+    this.nelements = 0;
     this.canvas.width=this.canvas.width;
     this.pintaTop(this.top);
   }
@@ -73,6 +76,7 @@ class PilaPunter { //PILA FIFO
     this.top.setSeg(n);
     this.top.setposx(this.posxaux);
     this.top.setposy(this.posy+this.disSep);
+    this.nelements++;
     this.printPila();
   }
 
@@ -107,6 +111,7 @@ class PilaPunter { //PILA FIFO
         this.posxaux = this.posxaux - this.disSep;
         this.printPila();
       }
+      this.nelements--;
     }
   }
 
@@ -125,7 +130,11 @@ class PilaPunter { //PILA FIFO
 
   printPila(){
     // Borram contingut donant el mateix width al nostre canvas
-    this.canvas.width=this.canvas.width;
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    if(this.cwidth< 100*this.nelements){
+        this.canvas.width = 100*this.nelements;
+    }
+
     if(this.estabuida()){
       alert("LA PILA ÉS BUIDA!");
     }else{

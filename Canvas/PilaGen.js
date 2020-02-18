@@ -23,9 +23,11 @@ class PilaGen { //PILA GENÈRICA
     //Distancia entre quadrats
     this.disSep = -this.qaltura;
 
+    this.nelements = 0;
+
     //Inicialització de la pila
     this.stack = [];
-    this.pintaBase();
+    //this.pintaBase();
   }
 
   empilar(elem){
@@ -36,6 +38,7 @@ class PilaGen { //PILA GENÈRICA
       this.posyaux = this.posyaux + this.disSep;
       this.stack.push(new Node(elem, null, this.posx, this.posyaux));
     }
+    this.nelements++;
     this.pintaPila();
   }
 
@@ -50,6 +53,7 @@ class PilaGen { //PILA GENÈRICA
       this.posyaux = this.posyaux - this.disSep;
       this.stack.pop();
     }
+    this.nelements--;
     this.pintaPila();
   }
 
@@ -63,6 +67,7 @@ class PilaGen { //PILA GENÈRICA
   buida(){
     this.stack = [];
     this.posyaux = this.posy;
+    this.nelements=0;
     this.pintaPila();
   }
 
@@ -77,11 +82,15 @@ class PilaGen { //PILA GENÈRICA
   }
 
   pintaPila(){
-    this.canvas.width = this.canvas.getAttribute('width');
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    if(this.canvas.height< 100*this.nelements){
+        this.canvas.height = 100*this.nelements;
+    }
+    console.log(this.canvas);
     for (var i = 0; i < this.stack.length; i++) {
       this.pintaNode(this.stack[i]);
     }
-    this.pintaBase();
+    //this.pintaBase();
   }
 
   pintaBase(){
