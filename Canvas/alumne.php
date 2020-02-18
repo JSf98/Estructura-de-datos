@@ -8,6 +8,7 @@ table, th, td {
 }
 th, td {
   padding: 15px;
+  font-family: Arial;
   text-align: left;
 }
 
@@ -23,6 +24,10 @@ table#t01 {
     <th>Categoria </th>
 </tr>
 <body>
+  <!--MENU-->
+  <ul id="menu">
+  <li><a href="menu.php">Inici</a></li>
+  </ul>
 <?php
       include "dadescon.php";
       if (empty($_SESSION['usuariactual'])){
