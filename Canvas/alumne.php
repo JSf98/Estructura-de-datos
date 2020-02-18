@@ -1,34 +1,15 @@
 <?php session_start(); ?>
 <html>
 <head><link rel="stylesheet" type="text/css" href="div.css"></head>
-<style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-th, td {
-  padding: 15px;
-  font-family: Arial;
-  text-align: left;
-}
-
-table#t01 {
-  width: 100%;
-  background-color: #f1f1f1;
-}
-</style>
-<Table id="t01">
+<table id="t01">
 <tr>
     <th>Nom</th>
     <th>Descripcio</th>
     <th>Categoria </th>
 </tr>
 <body>
-  <!--MENU-->
-  <ul id="menu">
-  <li><a href="menu.php">Inici</a></li>
-  </ul>
 <?php
+      include "mainmenu.html";?><br><br><br><?php
       include "dadescon.php";
       if (empty($_SESSION['usuariactual'])){
         ?><meta http-equiv="refresh" content="0; url=login.html"><?php

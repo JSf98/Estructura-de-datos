@@ -27,7 +27,7 @@ class PilaGen { //PILA GENÈRICA
 
     //Inicialització de la pila
     this.stack = [];
-    //this.pintaBase();
+    this.pintaBase();
   }
 
   empilar(elem){
@@ -83,14 +83,14 @@ class PilaGen { //PILA GENÈRICA
 
   pintaPila(){
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    if(this.canvas.height< 100*this.nelements){
-        this.canvas.height = 100*this.nelements;
-    }
+    //if(this.canvas.height< 100*this.nelements){
+    //    this.canvas.height = 100*this.nelements;
+    //}
     console.log(this.canvas);
     for (var i = 0; i < this.stack.length; i++) {
       this.pintaNode(this.stack[i]);
     }
-    //this.pintaBase();
+    this.pintaBase();
   }
 
   pintaBase(){
