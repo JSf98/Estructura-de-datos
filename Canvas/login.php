@@ -22,7 +22,7 @@
     if (empty($row)){
         echo("Usuari incorrecta");
         ?><meta http-equiv="refresh" content="2; url=login.html"><?php
-    }else if ($row['password'] !== $pass){
+    }else if (!password_verify($pass, $row['password'])){
         echo("Contraseña incorrecta");
         ?><meta http-equiv="refresh" content="2; url=login.html"><?php
     }else{

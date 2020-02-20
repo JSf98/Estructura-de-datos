@@ -1,0 +1,26 @@
+<html>
+<head>
+  <title> Enllaçada amb cursor </title>
+  <meta charset="utf-8">
+  <style>
+    body {width:90%; height:90%;}
+    #div {width:100%; height:100%; max-width: 50%; margin:0 auto; overflow-x: auto;}
+    #canvas{border:1px solid #d3d3d3;}
+  </style>
+</head>
+<body>
+  <center>
+    <h2>LLISTA AMB CURSORS</h2>
+    <div id="div">
+      <canvas id="canvas" width="800" height="800">
+        El teu navegador no soporta el HTML5 canvas.</canvas>
+    </div>
+  </center>
+  <script src = "LlistaCursor.js"> </script>
+  <script src = "Node.js"> </script>
+  <script>
+      var maxCaselles = 30;
+      let llistaCursor = new LlistaCursor("canvas",this.maxCaselles);
+  </script>
+</body>
+</html>
