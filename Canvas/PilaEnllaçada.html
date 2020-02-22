@@ -1,38 +1,72 @@
+<!doctype html>
 <html>
 <head>
   <title> Pila Enllaçada </title>
   <meta charset="utf-8">
   <style>
-    body {width:90%; height: 90%;}
-    #divisio {width:100%; height: 40%; max-width: 50%;  margin: 0 auto; overflow-x: auto; float: left; }
-    #divisio2 {width: 40%; height: 70%; max-height: 50%; margin: 0 auto; overflow-y: auto; float: right;}
-    #botons {width:100%; height: 10%; margin: 0 auto; overflow:hidden;}
+    #caja {width: 80%; margin-left: auto; margin-right: auto;}
+    .caja header {
+	    background-color: rgb(124, 124, 124);
+	    text-align:center;
+	    margin-bottom:0.2em;
+    }
+    nav ul {
+      text-align: center;
+    }
+    article {
+      text-align: center;
+      flex-basis: 70%;
+      justify-content: center;
+    }
+    #divisio {width:800px; height: 250px; max-width: 100%; margin: 15px; overflow-x: auto; float: left;}
+    #divisio2 {width: 500px; height: 500px; margin: 15px; overflow-y: auto; float: left;}
+    .button {
+      background-color: #4CAF50; 
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+    .button2 {background-color: #008CBA;} 
+    .button3 {background-color: #f44336;} 
+    .button4 {background-color: #e7e7e7; color: black;} 
   </style>
 </head>
 <body>
-  <center>
-  <h2>PILA ENLLAÇADA (LIFO)</h2>
-  <p> Quantitat d'elements no definits. Aprofita l'ús de la memòria dinàmica.</p>
 
-  <div id="botons">
-    <button onclick="empilar()">Empila</button>
-    <button onclick="desempila()">Desempila</button>
-    <button onclick="pila.cima()">Cima</button>
-    <button onclick="buida()">Buida</button>
+  <div class ="caja">
+    <header>
+      <h1>PILA ENLLAÇADA (LIFO)</h1>
+    </header>
+    <nav>
+      <ul>
+      <p> Quantitat d'elements no definits. Aprofita l'ús de la memòria dinàmica.</p>
+        <button class="button" onclick="empilar()">Empila</button>
+        <button class="button button2" onclick="desempila()">Desempila</button>
+        <button class="button button3" onclick="pila.cima()">Cima</button>
+        <button class="button button4" onclick="buida()">Buida</button>
+      </ul>
+      </nav>
+    <article> 
+      <div id="divisio">
+        <!--style="border:1px solid #d3d3d3;"-->
+        <canvas id="mycanvas" width="700" height="200" >
+          El teu navegador no soporta el HTML5 canvas.</canvas>
+      </div>
+    </article>
+    <aside>
+      <div id="divisio2">
+        <canvas id="mycanvas2" width="400" height="400" float= "right">
+          El teu navegador no soporta el HTML5 canvas.</canvas>
+      </div>
+    </aside>
+    
   </div>
-</center>
-
-  <div id="divisio">
-    <canvas id="mycanvas" width="765" height="200">
-      El teu navegador no soporta el HTML5 canvas.</canvas>
-  </div>
-
-<!--style="border:1px solid #d3d3d3;"-->
-  <div id="divisio2">
-    <canvas id="mycanvas2" width="400" height="400" float= "right">
-      El teu navegador no soporta el HTML5 canvas.</canvas>
-  </div>
-
   <!-- IMPORTS -->
   <script src = "PilaPunters.js "> </script>
   <script src = "PilaGen.js "> </script>
