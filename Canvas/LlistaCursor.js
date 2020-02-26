@@ -15,12 +15,12 @@ class LlistaCursor {
     this.posx = 23;//Ample
     this.posy = this.canvas.getAttribute('height')/2;//Altura
 
+    //Les posicions de memoria
     this.array = [];
-    //Contindrà els diferents puntes de les disintes estructures inserides
+    //Contindrà els diferents punters de les disintes estructures inserides
     this.nodes = [];
 
     this.nFree;
-
     this.inicialitzacio();
   }
 
@@ -31,11 +31,12 @@ class LlistaCursor {
     for (var i = 0; i < this.max; i++) {
       this.ctx.strokeRect(posaux,this.posy,this.qample,this.qaltura);
       this.array[i] = new Node(-1,null, posaux,this.posy);
-      //Segon rectangle
+      //Pintam el segon rectangle
       this.ctx.strokeRect(posaux,this.posy+this.qaltura,this.qample,this.qaltura);
       posaux += this.qample;
     }
-    this.nFree = new Node("Free", this.array[0], this.posx, this.posy-this.qaltura*4);
+    this.nFree = new Punter("Free", this.array[0], this.posx, this.posy-this.qaltura*4, "#000000");
+    //Inserim dins la llista de nodes el Free.
     this.nodes[0] = this.nFree;
     for (var i = 0; i < this.max-1; i++) {
       this.array[i].setSeg(this.array[i+1]);
@@ -45,17 +46,69 @@ class LlistaCursor {
       this.array[i].getposx()+this.qample,this.array[i].getposy()+this.qaltura*5,"#000000");
     }
     //El darrer node, ja apunta a null
-    this.pintaPunter(this.nFree, "#000000");
+  //  this.pintaPunter(this.nFree);
+    this.inserirNovaLlista("llista");
+    this.inserirNovaLlista("llista2");
   }
 
-  pintaPunter(n,color){
+  pintaEstructura(){
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    //Pintam els Nodes
+    this.ctx.strokeStyle = "#000000";
+    for (var i = 0; i < this.array.length; i++) {
+      this.ctx.strokeRect(this.array[i].getposx(), this.array[i].getposy(),this.qample, this.qaltura);
+      this.ctx.strokeRect(this.array[i].getposx(), this.array[i].getposy()+this.qaltura,this.qample, this.qaltura);
+    }
+    //Pintam els Punters
+    for (var i = 0; i < this.nodes.length; i++) {
+      this.pintaPunter(this.nodes[i]);
+      //Hem falten les fletxes
+    }
+    this.pintaPunter(this.nodes[1]);
+
+  }
+
+  inserirNovaLlista(nom){
+    if(this.nodes.indexOf(nom) != -1){
+      alert("Ja existeix una llista amb aquest nom. Perfavor torna-ho a intentar");
+    }else{
+      //El colocam a la darrera posició de l'array. Aquest nou node, ha de apuntar al mateix lloc que el Free, i es coloca on estava l'antic punter
+      var idx = this.nodes.length;
+      this.nodes[idx] = new Punter(nom, this.nodes[0].getSeg(), this.nodes[0].getposx(), this.nodes[0].getposy(), this.getRandomColor());
+      //Actualitzam el punter Free
+      this.nodes[0].setSeg(this.nodes[0].getSeg().getSeg());
+      this.nodes[0].setposx(this.nodes[0].getSeg().getposx());
+      this.nodes[0].setposy(this.nodes[0].getSeg().getposy()-this.qaltura*4);
+      //Pintam el nou node
+      this.pintaEstructura();
+    }
+  }
+
+  getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  eliminaLlista(nom){
+    //Hem de tenir en compte que mai hem de borrar el node Free!
+  }
+
+  buida(){
+
+  }
+
+  pintaPunter(n){
     var radi = 5;
     this.ctx.beginPath();
-    this.ctx.fillStyle = color;
+    this.ctx.fillStyle = n.getColor();
     this.ctx.fillText(n.getElem(), n.getposx()+this.qample/2 - this.ctx.measureText(n.getElem()).width/2, n.getposy() - radi*3);
     this.ctx.arc(n.getposx()+this.qample/2,n.getposy(), radi, 0, 2 * Math.PI);
     this.ctx.fill();
-    this.drawArrow(n.getposx()+this.qample/2, n.getposy(),n.getSeg().getposx()+this.qample/2,n.getSeg().getposy(),color, "", 0, 0);
+    this.drawArrow(n.getposx()+this.qample/2, n.getposy(),n.getSeg().getposx()+this.qample/2,n.getSeg().getposy(), n.getColor(), "", 0, 0);
   }
 
   drawArroyCurve(fromx, fromy, tox, toy, cpx, cpy, color){
