@@ -18,7 +18,7 @@ class Node {
   }
 
   setElem(e){
-    this.seg = e;
+    this.elem = e;
   }
 
   getSeg(){

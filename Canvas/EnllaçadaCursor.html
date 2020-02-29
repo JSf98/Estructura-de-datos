@@ -37,7 +37,9 @@
       <nav>
         <ul>
         <p> </p>
+          Seleccioni una llista: <select id="selector"></select>
           <button class="button" onclick="novaLlista()">Inserir Llista</button>
+          <button class="button" onclick="inserirElem()">Inserir element</button>
         </ul>
       </nav>
     </header>
@@ -64,6 +66,16 @@
         }
         llistaCursor.inserirNovaLlista(elem);
   		}
+
+      function inserirElem(){
+        let elem = prompt("Element: ");
+        if(elem == null) return;
+        if (elem.length > 1) {
+          elem = elem.substring(0,1);
+        }
+        llistaCursor.inserirElemDinsLlista(elem);
+      }
+
   </script>
 </body>
 </html>
