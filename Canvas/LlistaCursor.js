@@ -29,14 +29,9 @@ class LlistaCursor {
   }
 
   inicialitzacio(){
-    this.ctx.beginPath();
-    this.ctx.fillStyle = "#000000";
     var posaux = this.posx;
     for (var i = 0; i < this.max; i++) {
-      this.ctx.strokeRect(posaux,this.posy,this.qample,this.qaltura);
       this.array[i] = new Node(-1,null, posaux,this.posy);
-      //Pintam el segon rectangle
-      this.ctx.strokeRect(posaux,this.posy+this.qaltura,this.qample,this.qaltura);
       posaux += this.qample;
     }
     this.nFree = new Punter("Free", this.array[0], this.posx, this.posy-this.qaltura*4, "#000000");
@@ -44,13 +39,9 @@ class LlistaCursor {
     this.nodes.push(this.nFree);
     for (var i = 0; i < this.max-1; i++) {
       this.array[i].setSeg(this.array[i+1]);
-
-      this.drawArroyCurve(this.array[i].getposx()+this.qample/2, this.array[i].getposy()+this.qaltura*2- this.qaltura/2,
-      this.array[i].getSeg().getposx()+this.qample/3, this.array[i].getSeg().getposy()+this.qaltura*2,
-      this.array[i].getposx()+this.qample,this.array[i].getposy()+this.qaltura*5,"#000000");
     }
     //El darrer node de l'array, ja apunta a null
-    this.pintaPunter(this.nFree);
+    this.pintaEstructura();
   }
 
   pintaEstructura(){
@@ -129,53 +120,89 @@ class LlistaCursor {
   }
 
   inserirElemDinsLlista(elem){
-    //PENSAR EN DESINCREMENTAR EL this.posxf -= this.qample
-    //Hem faltara tenir en compte si Free te almenys una posicio liure.
-    //en el cas de que només en tengui una, cal tenir-ho en compte al actualitzar
-    //El Free
+    //PENSAR EN DESINCREMENTAR EL this.posxf -= this.qample en el cas de que
+    //la llista no tengues cap node
     if(this.nodes.length == 1){
       alert("No hi ha cap llista");
     }else{
-      //Primer agafam el selector i l'index del seu valor
-      let s = document.getElementById("selector");
-      var idx;
-      for (var i = 0; i < this.nodes.length; i++) {
-        if(this.nodes[i].getElem() == s.value){
-          idx = i;
-          break;
+      if(this.nodes[0].getSeg()!=null){ //Almenys té una posicó lliure
+        //Primer agafam el selector i l'index del seu valor
+        let s = document.getElementById("selector");
+        var idx;
+        for (var i = 0; i < this.nodes.length; i++) {
+          if(this.nodes[i].getElem() == s.value){
+            idx = i;
+            break;
+          }
         }
-      }
-      if (this.nodes[idx].getSeg()==null) {//Si és el primer element que inserim
-        this.nodes[idx].setSeg(this.nodes[0].getSeg());
-        this.nodes[idx].setposx(this.nodes[0].getposx());
-        this.nodes[idx].setposy(this.nodes[0].getposy());
-        //Inserim l'element
-        this.nodes[idx].getSeg();
-        this.nodes[idx].getSeg().setElem(elem);
+        if (this.nodes[0].getSeg().getSeg()==null) { //Només li queda una posició lliure
+          if (this.nodes[idx].getSeg()==null) {//Si és el primer element que inserim
+            this.nodes[idx].setSeg(this.nodes[0].getSeg());
+            this.nodes[idx].setposx(this.nodes[0].getposx());
+            this.nodes[idx].setposy(this.nodes[0].getposy());
+            //Inserim l'element
+            this.nodes[idx].getSeg();
+            this.nodes[idx].getSeg().setElem(elem);
 
-        //Actualitzam el punter Free
-        this.nodes[0].setSeg(this.nodes[0].getSeg().getSeg());
-        this.nodes[0].setposx(this.nodes[0].getSeg().getposx());
-        this.nodes[0].setposy(this.nodes[0].getSeg().getposy()-this.qaltura*4);
-        //Aïllam la nova llista dels punters Free
-        this.nodes[idx].getSeg().setSeg(null);
-      }else{
-        var aux = this.nodes[idx].getSeg();
-        //Ens colocam al final de la llista
-        while(aux.getSeg() != null){
-          aux = aux.getSeg();
+            //Actualitzam el punter Free
+            this.nodes[0].setSeg(null);
+            this.nodes[0].setposx(this.posxf);
+            this.nodes[0].setposy(this.posxy);
+            //Aïllam la nova llista dels punters Free
+            this.nodes[idx].getSeg().setSeg(null);
+          }else{
+            var aux = this.nodes[idx].getSeg();
+            //Ens colocam al final de la llista
+            while(aux.getSeg() != null){
+              aux = aux.getSeg();
+            }
+            aux.setSeg(this.nodes[0].getSeg());
+            //Inserim l'element
+            aux.getSeg().setElem(elem);
+            //Actualitzam el punter Free
+            this.nodes[0].setSeg(null);
+            this.nodes[0].setposx(this.posxf);
+            this.nodes[0].setposy(this.posxy);
+            //Aïllam el nou Node dels punters Free
+            aux.getSeg().setSeg(null);
+          }
+          this.pintaEstructura();
+        }else{//Free té més d'una posició lliure
+          if (this.nodes[idx].getSeg()==null) {//Si és el primer element que inserim
+            this.nodes[idx].setSeg(this.nodes[0].getSeg());
+            this.nodes[idx].setposx(this.nodes[0].getposx());
+            this.nodes[idx].setposy(this.nodes[0].getposy());
+            //Inserim l'element
+            this.nodes[idx].getSeg();
+            this.nodes[idx].getSeg().setElem(elem);
+
+            //Actualitzam el punter Free
+            this.nodes[0].setSeg(this.nodes[0].getSeg().getSeg());
+            this.nodes[0].setposx(this.nodes[0].getSeg().getposx());
+            this.nodes[0].setposy(this.nodes[0].getSeg().getposy()-this.qaltura*4);
+            //Aïllam la nova llista dels punters Free
+            this.nodes[idx].getSeg().setSeg(null);
+          }else{
+            var aux = this.nodes[idx].getSeg();
+            //Ens colocam al final de la llista
+            while(aux.getSeg() != null){
+              aux = aux.getSeg();
+            }
+            aux.setSeg(this.nodes[0].getSeg());
+            //Inserim l'element
+            aux.getSeg().setElem(elem);
+            //Actualitzam el punter Free
+            this.nodes[0].setSeg(this.nodes[0].getSeg().getSeg());
+            this.nodes[0].setposx(this.nodes[0].getSeg().getposx());
+            this.nodes[0].setposy(this.nodes[0].getSeg().getposy()-this.qaltura*4);
+            //Aïllam el nou Node dels punters Free
+            aux.getSeg().setSeg(null);
+          }
+          this.pintaEstructura();
         }
-        aux.setSeg(this.nodes[0].getSeg());
-        //Inserim l'element
-        aux.getSeg().setElem(elem);
-        //Actualitzam el punter Free
-        this.nodes[0].setSeg(this.nodes[0].getSeg().getSeg());
-        this.nodes[0].setposx(this.nodes[0].getSeg().getposx());
-        this.nodes[0].setposy(this.nodes[0].getSeg().getposy()-this.qaltura*4);
-        //Aïllam el nou Node dels punters Free
-        aux.getSeg().setSeg(null);
+      }else{
+        alert("No hi ha memoria disponible");
       }
-      this.pintaEstructura();
     }
   }
 
