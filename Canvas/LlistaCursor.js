@@ -17,6 +17,7 @@ class LlistaCursor {
 
     //Coordenades inicials per a les llistes fora elements
     this.posxf = this.posx;
+    this.auxposxf = this.posxf;
     this.posyf = this.canvas.getAttribute('height')/5;
 
     //Les posicions de memoria
@@ -75,31 +76,11 @@ class LlistaCursor {
   }
 
   inserirNovaLlista(nom){
-    if(this.nodes.indexOf(nom) != -1){
-      alert("Ja existeix una llista amb aquest nom. Perfavor torna-ho a intentar");
-    }else{
-      var idx = this.nodes.length;
-      this.nodes.push(new Punter(nom, null, this.posxf, this.posyf, this.getRandomColor()));
-      //Actualitzam el posxf per a la següent llista
-      this.posxf += this.qample;
-    }
-    this.actualitzarSelector()
-    this.pintaEstructura();
-  }
-
-  eliminarLlista(nom){
-    //Hem de tenir en compte que mai hem de borrar el node Free!
-    //També hem de mirar si hi ha alguna llista
-    var idx = this.nodes.indexOf(nom);
-    if(idx == -1){
-      alert("No existeix aquesta llista");
-    }else{
-      /*if(this.nodes[idx].getSeg() == null){ //No tenia cap element
-        //Actualitzam les posicions de les llistes
-        this.posxf -= this.qample;
-      }*/
-      this.nodes.splice(idx,idx); //Eliminam el node
-    }
+    var idx = this.nodes.length;
+    this.nodes.push(new Punter(nom, null, this.auxposxf, this.posyf, this.getRandomColor()));
+    //Actualitzam el posxf per a la següent llista
+    this.auxposxf += this.qample;
+    this.actualitzarSelector();
     this.pintaEstructura();
   }
 
@@ -119,9 +100,55 @@ class LlistaCursor {
     }
   }
 
+  actualitzaNodesNull(){
+    this.auxposxf = this.posxf;
+    for (var i = 0; i < this.nodes.length; i++) {
+      if(this.nodes[i].getSeg()==null){ //si no té Nodes enganxats
+        this.nodes[i].setposx(this.auxposxf);
+        this.nodes[i].setposy(this.posyf);
+        this.auxposxf  += this.qample;
+      }
+    }
+  }
+
+  eliminarLlista(nom){
+    //Hem de tenir en compte que mai hem de borrar el node Free!
+    if(this.nodes.length == 1){
+      alert("No hi ha cap llista");
+    }else{
+      //Primer agafam el selector i l'index del seu valor
+      let s = document.getElementById("selector");
+      var idx;
+      for (var i = 0; i < this.nodes.length; i++) {
+        if(this.nodes[i].getElem() == s.value){
+          idx = i;
+          break;
+        }
+      }
+      if(this.nodes[idx].getSeg() == null){
+        //No té nodes enganxats
+        this.nodes.splice(idx,idx); //Eliminam el node
+        this.actualitzaNodesNull();
+      }else{
+        //Actualitzam el node Free
+        if(this.nodes[0].getSeg() != null){
+          let aux = this.nodes[idx].getSeg();
+          //Ens colocam al darrer bloc de la llista
+          while(aux.getSeg() != null){
+            aux = aux.getSeg();
+          }
+          aux.setSeg(this.nodes[0].getSeg());
+        }
+        this.nodes[0].setSeg(this.nodes[idx].getSeg());
+        this.nodes[0].setposx(this.nodes[idx].getposx());
+        this.nodes[0].setposy(this.nodes[idx].getposy());
+        this.nodes.splice(idx,idx); //Eliminam el node
+      }
+      this.pintaEstructura();
+    }
+  }
+
   inserirElemDinsLlista(elem){
-    //PENSAR EN DESINCREMENTAR EL this.posxf -= this.qample en el cas de que
-    //la llista no tengues cap node
     if(this.nodes.length == 1){
       alert("No hi ha cap llista");
     }else{
@@ -146,10 +173,11 @@ class LlistaCursor {
 
             //Actualitzam el punter Free
             this.nodes[0].setSeg(null);
-            this.nodes[0].setposx(this.posxf);
-            this.nodes[0].setposy(this.posxy);
+            this.nodes[0].setposx(2);
+            this.nodes[0].setposy(2);
             //Aïllam la nova llista dels punters Free
             this.nodes[idx].getSeg().setSeg(null);
+            this.actualitzaNodesNull();
           }else{
             var aux = this.nodes[idx].getSeg();
             //Ens colocam al final de la llista
@@ -161,8 +189,8 @@ class LlistaCursor {
             aux.getSeg().setElem(elem);
             //Actualitzam el punter Free
             this.nodes[0].setSeg(null);
-            this.nodes[0].setposx(this.posxf);
-            this.nodes[0].setposy(this.posxy);
+            this.nodes[0].setposx(2);
+            this.nodes[0].setposy(2);
             //Aïllam el nou Node dels punters Free
             aux.getSeg().setSeg(null);
           }
@@ -182,6 +210,7 @@ class LlistaCursor {
             this.nodes[0].setposy(this.nodes[0].getSeg().getposy()-this.qaltura*4);
             //Aïllam la nova llista dels punters Free
             this.nodes[idx].getSeg().setSeg(null);
+            this.actualitzaNodesNull();
           }else{
             var aux = this.nodes[idx].getSeg();
             //Ens colocam al final de la llista
@@ -207,16 +236,48 @@ class LlistaCursor {
   }
 
   getRandomColor() {
+    var letters = '0123456789'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.round(Math.random() * 10)];
+    }
+    return color;
+  }
+
+  /*getRandomColor(hex, lum) {
+    // validate hex string
+    hex = String(hex).replace(/[^0-9a-f]/gi, '');
+    if (hex.length < 6) {
+      hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    }
+    lum = lum || 0;
+
+    // convert to decimal and change luminosity
+    var rgb = "#", c, i;
+    for (i = 0; i < 3; i++) {
+      c = parseInt(hex.substr(i*2,2), 16);
+      c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+      rgb += ("00"+c).substr(c.length);
+    }
+
+    return rgb;
+  }
+
+  getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
     for (var i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-  }
+  }*/
 
   buida(){
-    //Alfinal sera com una inicialitzacio
+    //Buidam la llista dels punters
+    this.nodes = [];
+    this.actualitzarSelector();
+    this.auxposxf = this.posxf;
+    this.inicialitzacio();
   }
 
   pintaPunter(n){

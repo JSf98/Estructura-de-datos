@@ -2,8 +2,9 @@
 <head>
   <title> Enllaçada amb cursor </title>
   <meta charset="utf-8">
+<!--  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> -->
   <style>
-    body {width:90%; height:90%;}
+body {width:90%; height:90%; /*font-family: 'Roboto';*/}
     #div {width:100%; height:100%; margin:0 auto; overflow-x: auto; float:left}
     #canvas{border:1px solid #d3d3d3;}
     #caja {width: 80%; margin-left: auto; margin-right: auto;}
@@ -39,7 +40,9 @@
         <p> </p>
           Seleccioni una llista: <select id="selector"></select>
           <button class="button" onclick="novaLlista()">Inserir Llista</button>
+          <button class="button" onclick="eliminarLlista()">Eliminar Llista</button>
           <button class="button" onclick="inserirElem()">Inserir element</button>
+          <button class="button" onclick="llistaCursor.buida()">Buida</button>
         </ul>
       </nav>
     </header>
@@ -74,6 +77,11 @@
           elem = elem.substring(0,1);
         }
         llistaCursor.inserirElemDinsLlista(elem);
+      }
+
+      function eliminarLlista(){
+        let s = document.getElementById("selector");
+        llistaCursor.eliminarLlista(s.value);
       }
 
   </script>
