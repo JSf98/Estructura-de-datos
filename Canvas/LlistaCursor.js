@@ -144,6 +144,7 @@ class LlistaCursor {
         this.nodes[0].setposy(this.nodes[idx].getposy());
         this.nodes.splice(idx,idx); //Eliminam el node
       }
+      this.actualitzarSelector();
       this.pintaEstructura();
     }
   }
