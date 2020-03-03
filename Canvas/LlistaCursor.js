@@ -163,7 +163,7 @@ class LlistaCursor {
       }
       if(this.nodes[idx].getSeg() == null){
         //No té nodes enganxats
-        this.nodes.splice(idx,idx); //Eliminam el node
+        this.nodes.splice(idx,1); //Eliminam el node
         this.actualitzaNodesNull();
       }else{
         //Actualitzam el node Free
@@ -210,17 +210,18 @@ class LlistaCursor {
         }
 
         let aux2 = aux.getSeg(); //És el node que volem eliminar
-        if(aux2 != null){ //No es el darrer node
-          //Enllaçam el seu anterior al fill del node que volem borrar
-          aux.setSeg(aux2.getSeg());
-        }
         if(aux2.getSeg() != null){// La llista té més d'un node
-          if(this.nodes[idx].getSeg() == aux2{ //Si és el node que volem eliminar
+          if(this.nodes[idx].getSeg() == aux2){ //Si és el node que volem eliminar
             this.nodes[idx].setposx(aux2.getSeg().getposx());
             this.nodes[idx].setposy(aux2.getSeg().getposy()-this.qaltura*4);
           }
         }else{//només té un Node
+          this.nodes[idx].setSeg(null);
           this.actualitzaNodesNull();
+        }
+        if(aux2 != null){ //No es el darrer node de la llista
+          //Enllaçam el seu anterior al fill del node que volem borrar
+          aux.setSeg(aux2.getSeg());
         }
         aux2.setSeg(this.nFree.getSeg());
         this.nFree.setSeg(aux2);
@@ -377,7 +378,7 @@ class LlistaCursor {
     this.ctx.stroke();
 
     var x_center = tox;
-    var y_center = toy+4;
+    var y_center = toy;
 
     var angle;
     var x;
@@ -385,20 +386,27 @@ class LlistaCursor {
     var r=4;
 
     this.ctx.beginPath();
-    angle = Math.atan2(toy-fromy,tox-fromx)
+    //angle = Math.atan2(toy-fromy,tox-fromx);
+    angle = this.getQuadraticAngle(1, fromx,fromy, cpx, cpy, tox, toy);
     x = r*Math.cos(angle) + x_center;
     y = r*Math.sin(angle) + y_center;
     this.ctx.moveTo(x, y);
-    angle += (1/3)*(2*Math.PI)
+    angle += (1/3)*(2*Math.PI);
     x = r*Math.cos(angle) + x_center;
     y = r*Math.sin(angle) + y_center;
     this.ctx.lineTo(x, y);
-    angle += (1/3)*(2*Math.PI)
+    angle += (1/3)*(2*Math.PI);
     x = r*Math.cos(angle) + x_center;
     y = r*Math.sin(angle) + y_center;
     this.ctx.lineTo(x, y);
     this.ctx.closePath();
     this.ctx.fill();
+  }
+
+  getQuadraticAngle(t, sx, sy, cp1x, cp1y, ex, ey) {
+    var dx = 2*(1-t)*(cp1x-sx) + 2*t*(ex-cp1x);
+    var dy = 2*(1-t)*(cp1y-sy) + 2*t*(ey-cp1y);
+    return -Math.atan2(dx, dy) + 0.5*Math.PI;
   }
 
   drawArrow(fromx, fromy, tox, toy, color, txt, offsetx, offsety){
