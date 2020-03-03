@@ -76,12 +76,17 @@ class LlistaCursor {
   }
 
   inserirNovaLlista(nom){
-    var idx = this.nodes.length;
-    this.nodes.push(new Punter(nom, null, this.auxposxf, this.posyf, this.getRandomColor()));
-    //Actualitzam el posxf per a la següent llista
-    this.auxposxf += this.qample;
-    this.actualitzarSelector();
-    this.pintaEstructura();
+    //FALTA COMPROVACIÓ DE SI EL NOM JA EXISTEIX
+    if(this.nodes.length == this.max){
+      alert("Has superat el límit de llistes");
+    }else{
+      var idx = this.nodes.length;
+      this.nodes.push(new Punter(nom, null, this.auxposxf, this.posyf, this.getRandomColor()));
+      //Actualitzam el posxf per a la següent llista
+      this.auxposxf += this.qample;
+      this.actualitzarSelector();
+      this.pintaEstructura();
+    }
   }
 
   actualitzarSelector(){
@@ -97,6 +102,37 @@ class LlistaCursor {
 			option.text = nom;
 			option.value = nom;
 			s.add(option);
+    }
+
+    this.actualitzarSelectorNodes();
+  }
+
+  actualitzarSelectorNodes(){
+    let s1 = document.getElementById("selector");
+    let s = document.getElementById("selector2");
+    var idx;
+    for (var i = 0; i < this.nodes.length; i++) {
+      if(this.nodes[i].getElem() == s1.value){
+        idx = i;
+        break;
+      }
+    }
+    //Eliminam les opcions antigues
+    for(var i = s.options.length; i >= 0; i--){
+			s.remove(i);
+		}
+    //Cream les noves opcions
+    if(idx != undefined){
+      let n = this.nodes[idx].getSeg();
+      let aux = n;
+      while(aux != null){
+        let option = document.createElement("option");
+        let nom = aux.getElem();
+        option.text = nom;
+        option.value = nom;
+        s.add(option);
+        aux = aux.getSeg();
+      }
     }
   }
 
@@ -147,6 +183,55 @@ class LlistaCursor {
       this.actualitzarSelector();
       this.pintaEstructura();
     }
+    this.actualitzarSelectorNodes();
+  }
+
+  eliminarElemDinsLlista(){
+    if (this.nodes.length == 1) {
+      alert("No hi ha cap llista");
+    }else{
+      let s = document.getElementById("selector");
+      let s2 = document.getElementById("selector2");
+      var idx; // idx de la llista
+      for (var i = 0; i < this.nodes.length; i++) {
+        if(this.nodes[i].getElem() == s.value){
+          idx = i;
+          break;
+        }
+      }
+      if(this.nodes[idx].getSeg() != null){
+        let aux = this.nodes[idx];
+        while(aux.getSeg() != null){
+          if(aux.getSeg().getElem() == s2.value){
+            break;
+          }else{
+            aux = aux.getSeg();
+          }
+        }
+
+        let aux2 = aux.getSeg(); //És el node que volem eliminar
+        if(aux2 != null){ //No es el darrer node
+          //Enllaçam el seu anterior al fill del node que volem borrar
+          aux.setSeg(aux2.getSeg());
+        }
+        if(aux2.getSeg() != null){// La llista té més d'un node
+          if(this.nodes[idx].getSeg() == aux2{ //Si és el node que volem eliminar
+            this.nodes[idx].setposx(aux2.getSeg().getposx());
+            this.nodes[idx].setposy(aux2.getSeg().getposy()-this.qaltura*4);
+          }
+        }else{//només té un Node
+          this.actualitzaNodesNull();
+        }
+        aux2.setSeg(this.nFree.getSeg());
+        this.nFree.setSeg(aux2);
+        this.nodes[0].setposx(aux2.getposx());
+        this.nodes[0].setposy(aux2.getposy()-this.qaltura*4);
+        this.actualitzarSelectorNodes();
+        this.pintaEstructura();
+      }else{
+        alert("La llista esta buida");
+      }
+    }
   }
 
   inserirElemDinsLlista(elem){
@@ -174,8 +259,8 @@ class LlistaCursor {
 
             //Actualitzam el punter Free
             this.nodes[0].setSeg(null);
-            this.nodes[0].setposx(2);
-            this.nodes[0].setposy(2);
+            this.nodes[0].setposx(5);
+            this.nodes[0].setposy(5);
             //Aïllam la nova llista dels punters Free
             this.nodes[idx].getSeg().setSeg(null);
             this.actualitzaNodesNull();
@@ -190,8 +275,8 @@ class LlistaCursor {
             aux.getSeg().setElem(elem);
             //Actualitzam el punter Free
             this.nodes[0].setSeg(null);
-            this.nodes[0].setposx(2);
-            this.nodes[0].setposy(2);
+            this.nodes[0].setposx(5);
+            this.nodes[0].setposy(5);
             //Aïllam el nou Node dels punters Free
             aux.getSeg().setSeg(null);
           }
@@ -234,15 +319,7 @@ class LlistaCursor {
         alert("No hi ha memoria disponible");
       }
     }
-  }
-
-  getRandomColor() {
-    var letters = '0123456789'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-        color += letters[Math.round(Math.random() * 10)];
-    }
-    return color;
+    this.actualitzarSelectorNodes();
   }
 
   /*getRandomColor(hex, lum) {
@@ -262,7 +339,7 @@ class LlistaCursor {
     }
 
     return rgb;
-  }
+  }*/
 
   getRandomColor() {
     var letters = '0123456789ABCDEF';
@@ -271,10 +348,9 @@ class LlistaCursor {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-  }*/
+  }
 
   buida(){
-    //Buidam la llista dels punters
     this.nodes = [];
     this.actualitzarSelector();
     this.auxposxf = this.posxf;
@@ -299,6 +375,30 @@ class LlistaCursor {
     this.ctx.strokeStyle = color;
     this.ctx.quadraticCurveTo(cpx, cpy, tox, toy);
     this.ctx.stroke();
+
+    var x_center = tox;
+    var y_center = toy+4;
+
+    var angle;
+    var x;
+    var y;
+    var r=4;
+
+    this.ctx.beginPath();
+    angle = Math.atan2(toy-fromy,tox-fromx)
+    x = r*Math.cos(angle) + x_center;
+    y = r*Math.sin(angle) + y_center;
+    this.ctx.moveTo(x, y);
+    angle += (1/3)*(2*Math.PI)
+    x = r*Math.cos(angle) + x_center;
+    y = r*Math.sin(angle) + y_center;
+    this.ctx.lineTo(x, y);
+    angle += (1/3)*(2*Math.PI)
+    x = r*Math.cos(angle) + x_center;
+    y = r*Math.sin(angle) + y_center;
+    this.ctx.lineTo(x, y);
+    this.ctx.closePath();
+    this.ctx.fill();
   }
 
   drawArrow(fromx, fromy, tox, toy, color, txt, offsetx, offsety){
