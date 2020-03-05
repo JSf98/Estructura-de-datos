@@ -260,8 +260,8 @@ class LlistaCursor {
 
             //Actualitzam el punter Free
             this.nodes[0].setSeg(null);
-            this.nodes[0].setposx(5);
-            this.nodes[0].setposy(5);
+            this.nodes[0].setposx(this.canvas.getAttribute('width') + 2);
+            this.nodes[0].setposy(this.canvas.getAttribute('height')+ 2);
             //Aïllam la nova llista dels punters Free
             this.nodes[idx].getSeg().setSeg(null);
             this.actualitzaNodesNull();
@@ -276,8 +276,8 @@ class LlistaCursor {
             aux.getSeg().setElem(elem);
             //Actualitzam el punter Free
             this.nodes[0].setSeg(null);
-            this.nodes[0].setposx(5);
-            this.nodes[0].setposy(5);
+            this.nodes[0].setposx(this.canvas.getAttribute('width') + 2);
+            this.nodes[0].setposy(this.canvas.getAttribute('height')+ 2);
             //Aïllam el nou Node dels punters Free
             aux.getSeg().setSeg(null);
           }
