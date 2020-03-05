@@ -142,7 +142,10 @@ class Arbregen{
       //aux és el que ha de substituir el pare
       node.setNum(aux.getNum());
       //Els fills esquerra es mantenen, per tant, no fa falta canviar-los
-      node.setFillDreta()
+      //Si no te fills dreta, es mantenen els que hi havia anteriorment
+      if(aux.getFillDreta() != null){
+          //Hem de actualitzar els fills drets
+      }
     }
   }
 
