@@ -41,8 +41,7 @@ class PintaArbre{
 		}
     //Cream la llista dels nodes amb un preordre
     var llista = [];
-    this.arbre.preOrdre(llista);
-    console.log(llista.length)
+    this.arbre.preOrdre(this.arbre.arrel,llista);
     //Cream les noves opcions
     /*for (var i = 1; i < llista.length; i++) {
 			let option = document.createElement("option");

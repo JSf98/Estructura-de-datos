@@ -69,16 +69,16 @@ class Arbregen{
     }
   }*/
 
-  preOrdre (node = this.arrel) {
+  preOrdre (node, llista) {
     if (!node) {
       return
     }
     llista.push(node.getNum())
     if (node.getFillEsquerra()) {
-      this.preOrdre(node.getFillEsquerra(llista))
+      this.preOrdre(node.getFillEsquerra(), llista)
     }
     if (node.getFillDreta()) {
-      this.preOrdre(node.getFillDreta(llista))
+      this.preOrdre(node.getFillDreta(), llista)
     }
   }
 
