@@ -1,4 +1,4 @@
-import Node from "Node.js";
+//import Node from "Node.js";
 
 class Arbregen{
 
@@ -16,7 +16,6 @@ class Arbregen{
       this.arrel = new Node(nouNum);
       return;
     }
-
     var aux = this.arrel;
     while(aux){
       if(aux.getNum() == nouNum){ //Ja existeix
@@ -43,31 +42,56 @@ class Arbregen{
     return this.arrel == undefined;
   }
 
-  //RECORREGUTS
+  //RECORREGUTS RECURSIUS
   inOrdre (node = this.arrel) {
     if (!node) {
       return
     }
-    this.inOrder(node.getFillEsquerra())
+    if(node.getFillEsquerra()){
+        this.inOrdre(node.getFillEsquerra())
+    }
     console.log(node.getNum())
-    this.inOrder(node.getFillDreta())
+    if (node.getFillDreta()) {
+        this.inOrdre(node.getFillDreta())
+    }
   }
+
+  /*preOrdre (node = this.arrel) {
+    if (!node) {
+      return
+    }
+    console.log(node.getNum())
+    if (node.getFillEsquerra()) {
+      this.preOrdre(node.getFillEsquerra())
+    }
+    if (node.getFillDreta()) {
+      this.preOrdre(node.getFillDreta())
+    }
+  }*/
 
   preOrdre (node = this.arrel) {
     if (!node) {
       return
     }
-    console.log(node.getNum())
-    this.preOrder(node.getFillEsquerra())
-    this.preOrder(node.getFillDreta())
+    llista.push(node.getNum())
+    if (node.getFillEsquerra()) {
+      this.preOrdre(node.getFillEsquerra(llista))
+    }
+    if (node.getFillDreta()) {
+      this.preOrdre(node.getFillDreta(llista))
+    }
   }
 
   postOrdre (node = this.root) {
     if (!node) {
       return
     }
-    this.postOrder(node.getFillEsquerra())
-    this.postOrder(node.getFillDreta())
+    if (node.getFillEsquerra()) {
+      this.postOrdre(node.getFillEsquerra())
+    }
+    if (node.getFillDreta()) {
+      this.postOrdre(node.getFillDreta())
+    }
     console.log(node.getNum())
   }
 
@@ -112,17 +136,18 @@ class Arbregen{
         }else{
           return null
         }
+      }
+      //No l'hem trobat
+      return null
     }
-    //No l'hem trobat
-    return null
-  }
+}
 
   eliminarNode(num){
     if (!this.estaBuid()) {
       alert("L'arbre esta buid")
       return
     }
-    var node = trobarNode(num)
+    var node = this.trobarNode(num)
     // Si no te fills
     if(node.getFillDreta()== null && node.getFillEsquerra() == null){
       node = null
@@ -136,27 +161,17 @@ class Arbregen{
       //Conveni
       var aux = node //'node' és el node que volem eliminar
       aux = aux.getFillDreta()
-      while(aux.getFillEsquerra() != null){
+      while(aux.getFillEsquerra().getFillEsquerra() != null){
         aux = aux.getFillEsquerra()
       }
-      //aux és el que ha de substituir el pare
-      node.setNum(aux.getNum());
+      //aux.getFillEsquerra() és el que ha de substituir el pare
+      node.setNum(aux.getFillEsquerra().getNum());
       //Els fills esquerra es mantenen, per tant, no fa falta canviar-los
       //Si no te fills dreta, es mantenen els que hi havia anteriorment
-      if(aux.getFillDreta() != null){
+      if(aux.getFillEsquerra().getFillDreta() != null){
           //Hem de actualitzar els fills drets
+          aux.setFillEsquerra(aux.getFillEsquerra().getFillDreta());
       }
     }
   }
-
-
-
-
-
-
-
-
-
-
-
 }
