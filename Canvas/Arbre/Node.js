@@ -1,8 +1,9 @@
 class Node {
-  constructor (n){
+  constructor (n, pare){
       this.num = n;
       this.esquerra;
       this.dreta;
+      this.pare = pare;
   }
 
   setNum(n){
@@ -27,5 +28,13 @@ class Node {
 
   setFillDreta(n){
     this.dreta = n;
+  }
+
+  getPare(){
+    return this.pare;
+  }
+
+  setPare(p){
+    this.pare = p;
   }
 }

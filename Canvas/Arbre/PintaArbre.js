@@ -29,7 +29,7 @@ class PintaArbre{
 
   eliminarNode(){
     let s = document.getElementById(this.selector);
-    this.arbre.eliminarLlista(s.value);
+    this.arbre.eliminarNode(s.value);
     this.actualitzarSelector();
   }
 
@@ -42,14 +42,15 @@ class PintaArbre{
     //Cream la llista dels nodes amb un preordre
     var llista = [];
     this.arbre.preOrdre(this.arbre.arrel,llista);
+    console.log(llista)
     //Cream les noves opcions
-    /*for (var i = 1; i < llista.length; i++) {
+    for (var i = 0; i < llista.length; i++) {
 			let option = document.createElement("option");
-      let n = llista[i].getNum();
+      let n = llista[i];
 			option.text = n;
 			option.value = n;
 			s.add(option);
-    }*/
+    }
   }
 
 }

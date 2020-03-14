@@ -7,29 +7,30 @@ class Arbregen{
   }
 
   inserirNouNode(nouNum){
-    if (isNaN(nouNum)) {
+    if (isNaN(nouNum) || nouNum == "") {
       alert("No és un número, torna-ho a intentar");
       return;
     }
     if(this.estaBuid()){
       //Significa que no tenim arrel encara
-      this.arrel = new Node(nouNum);
+      this.arrel = new Node(nouNum, null);
       return;
     }
     var aux = this.arrel;
     while(aux){
       if(aux.getNum() == nouNum){ //Ja existeix
         alert("Ja existeix aquest node");
+        aux = null
       }else if(aux.getNum() < nouNum){ //Dreta
         if(aux.getFillDreta() == null){
-          aux.setFillDreta(new Node(nouNum));
+          aux.setFillDreta(new Node(nouNum, aux));
           return;
         }else{
           aux = aux.getFillDreta();
         }
       }else{ // arrel.getNum() > nouNum // Esquerra
         if(aux.getFillEsquerra() == null){
-          aux.setFillEsquerra(new Node(nouNum));
+          aux.setFillEsquerra(new Node(nouNum, aux));
           return;
         }else{
           aux = aux.getFillEsquerra();
@@ -39,7 +40,10 @@ class Arbregen{
   }
 
   estaBuid(){
-    return this.arrel == undefined;
+    if(this.arrel == null){
+      return true
+    }
+    return false;
   }
 
   //RECORREGUTS RECURSIUS
@@ -56,18 +60,18 @@ class Arbregen{
     }
   }
 
-  /*preOrdre (node = this.arrel) {
+  preOrdre (node) {
     if (!node) {
       return
     }
     console.log(node.getNum())
     if (node.getFillEsquerra()) {
-      this.preOrdre(node.getFillEsquerra())
+      this.preOrdre(node.getFillEsquerra(), llista)
     }
     if (node.getFillDreta()) {
-      this.preOrdre(node.getFillDreta())
+      this.preOrdre(node.getFillDreta(), llista)
     }
-  }*/
+  }
 
   preOrdre (node, llista) {
     if (!node) {
@@ -121,56 +125,73 @@ class Arbregen{
       return null
     }
     var aux = this.arrel
-    while(aux){
+    while(aux != null){
       if(aux.getNum() == num){ //L'hem trobat
         return aux
       }else if(aux.getNum() < num){ //Dreta
         if(aux.getFillDreta() != null) {
           aux = aux.getFillDreta();
         }else{
-          return null
+          aux = null
         }
       }else{ // Esquerra
         if(aux.getFillEsquerra() != null){
           aux = aux.getFillEsquerra();
         }else{
-          return null
+          aux = null
         }
       }
-      //No l'hem trobat
-      return null
     }
+    //No l'hem trobat
+    return null
 }
 
   eliminarNode(num){
-    if (!this.estaBuid()) {
+    if (this.estaBuid()) {
       alert("L'arbre esta buid")
       return
     }
     var node = this.trobarNode(num)
+    if(node == null){
+      alert("Node no trobat")
+      return
+    }
     // Si no te fills
     if(node.getFillDreta()== null && node.getFillEsquerra() == null){
-      node = null
+      var pare = node.getPare()
+      if(pare.getNum() > node.getNum()){
+        pare.setFillEsquerra(null)
+      }else{
+        pare.setFillDreta(null)
+      }
     }else if(node.getFillDreta()!= null && node.getFillEsquerra() == null){
       //Te subarbre dret
-      node = node.getFillDreta()
+      var substitut = node.getFillDreta()
+      node.setNum(substitut.getNum())
+      node.setFillDreta(substitut.getFillDreta())
     }else if(node.getFillDreta()== null && node.getFillEsquerra() != null){
       //Te subarbre esquerra
-      node = node.getFillEsquerra()
+      var substitut = node.getFillEsquerra()
+      node.setNum(substitut.getNum())
+      node.setFillEsquerra(substitut.getFillEsquerra())
     }else{//Te els dos fills.
       //Conveni
-      var aux = node //'node' és el node que volem eliminar
-      aux = aux.getFillDreta()
-      while(aux.getFillEsquerra().getFillEsquerra() != null){
-        aux = aux.getFillEsquerra()
+      var substitut = node //'node' és el node que volem eliminar
+      substitut = aux.getFillDreta()
+      while(substitut.getFillEsquerra() != null){
+        substitut = substitut.getFillEsquerra()
       }
-      //aux.getFillEsquerra() és el que ha de substituir el pare
-      node.setNum(aux.getFillEsquerra().getNum());
-      //Els fills esquerra es mantenen, per tant, no fa falta canviar-los
-      //Si no te fills dreta, es mantenen els que hi havia anteriorment
-      if(aux.getFillEsquerra().getFillDreta() != null){
-          //Hem de actualitzar els fills drets
-          aux.setFillEsquerra(aux.getFillEsquerra().getFillDreta());
+
+      //Els fills esquerra del 'node' es mantenen
+      node.setNum(substitut.getNum());
+
+      if (node.getFillDreta().getNum() == substitut.getNum()) {
+        //Cas en que el substitut és directament el fill dret
+        node.setFillDreta(substitut)
+      }else{
+        //Actualitzarà un node anterior al substitut, eliminant el substitut del
+        //seu lloc
+        substitut.getPare().setFillEsquerra(substitut.getFillDreta())
       }
     }
   }
