@@ -2,8 +2,13 @@
 
 class Arbregen{
 
-  constructor(){
+  constructor(max){
     this.arrel;
+    this.nivells = [];
+    // Tenim un màxim (max) de nivells
+    for (var i = 0; i < max; i++) {
+      this.nivells.push([])
+    }
   }
 
   inserirNouNode(nouNum){
@@ -11,26 +16,39 @@ class Arbregen{
       alert("No és un número, torna-ho a intentar");
       return;
     }
+    var profunditat = 0
     if(this.estaBuid()){
       //Significa que no tenim arrel encara
-      this.arrel = new Node(nouNum, null);
+      this.arrel = new Node(nouNum, null, new Index(profunditat,1));
+      //El nivell 0 sempre tendrà l'arrel
+      this.nivells[0] = this.arrel
       return;
     }
     var aux = this.arrel;
     while(aux){
+      //Cada iteració és un nivell més
+      profunditat++
       if(aux.getNum() == nouNum){ //Ja existeix
         alert("Ja existeix aquest node");
         aux = null
       }else if(aux.getNum() < nouNum){ //Dreta
         if(aux.getFillDreta() == null){
-          aux.setFillDreta(new Node(nouNum, aux));
+          //var index = aux.getIndex().index * 2
+          var index = this.nivells[profunditat].length +1
+          var newNode = new Node(nouNum, aux, new Index(profunditat,index))
+          this.nivells[profunditat].push(newNode)
+          aux.setFillDreta(newNode);
           return;
         }else{
           aux = aux.getFillDreta();
         }
       }else{ // arrel.getNum() > nouNum // Esquerra
         if(aux.getFillEsquerra() == null){
-          aux.setFillEsquerra(new Node(nouNum, aux));
+          //var index = aux.getIndex().index * 2 -1
+          var index = this.nivells[profunditat].length +1
+          var newNode = new Node(nouNum, aux, new Index(profunditat,index))
+          this.nivells[profunditat].push(newNode)
+          aux.setFillEsquerra(newNode);
           return;
         }else{
           aux = aux.getFillEsquerra();
@@ -81,7 +99,7 @@ class Arbregen{
     if (!node) {
       return
     }
-    llista.push(node.getNum())
+    llista.push(node)
     if (node.getFillEsquerra()) {
       this.preOrdre(node.getFillEsquerra(), llista)
     }
@@ -102,6 +120,23 @@ class Arbregen{
     }
     console.log(node.getNum())
   }
+
+  /* El problema es que es binari, per tant ens pot sortir un arbre molt desordenat, per aixo
+  cal fer un recorregut damunt tots els nodes */
+ trobatProfunditat(){
+   if (this.estaBuid()) {
+     return 0
+   }
+   var llista = []
+   this.preOrdre(this.arrel, llista)
+   var profunditatMax = 0
+   for (var i = 0; i < llista.length; i++) {
+     if (profunditatMax < llista[i].getIndex().profunditat) {
+       profunditatMax = llista[i].getIndex().profunditat
+     }
+   }
+   return profunditatMax
+ }
 
   getValorMin(){
     if(!this.estaBuid()){
