@@ -46,6 +46,10 @@ class Arbregen{
     return false;
   }
 
+  buidaArbre(){
+    this.arrel = null
+  }
+
   //RECORREGUTS RECURSIUS
   inOrdre (node = this.arrel) {
     if (!node) {

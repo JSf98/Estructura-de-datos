@@ -33,6 +33,11 @@ class PintaArbre{
     this.actualitzarSelector();
   }
 
+  reiniciaArbre(){
+    this.arbre.buidaArbre()
+    this.actualitzarSelector()
+  }
+
   actualitzarSelector(){
     let s = document.getElementById(this.selector);
     //Eliminam les opcions antigues
