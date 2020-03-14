@@ -159,25 +159,32 @@ class Arbregen{
     // Si no te fills
     if(node.getFillDreta()== null && node.getFillEsquerra() == null){
       var pare = node.getPare()
-      if(pare.getNum() > node.getNum()){
-        pare.setFillEsquerra(null)
+      if (pare == null) {
+        //És la arrel
+          this.arrel = null
       }else{
-        pare.setFillDreta(null)
+        if(pare.getNum() > node.getNum()){
+          pare.setFillEsquerra(null)
+        }else{
+          pare.setFillDreta(null)
+        }
       }
     }else if(node.getFillDreta()!= null && node.getFillEsquerra() == null){
       //Te subarbre dret
       var substitut = node.getFillDreta()
       node.setNum(substitut.getNum())
       node.setFillDreta(substitut.getFillDreta())
+      node.setFillEsquerra(substitut.getFillEsquerra())
     }else if(node.getFillDreta()== null && node.getFillEsquerra() != null){
       //Te subarbre esquerra
       var substitut = node.getFillEsquerra()
       node.setNum(substitut.getNum())
+      node.setFillDreta(substitut.getFillDreta())
       node.setFillEsquerra(substitut.getFillEsquerra())
     }else{//Te els dos fills.
       //Conveni
       var substitut = node //'node' és el node que volem eliminar
-      substitut = aux.getFillDreta()
+      substitut = substitut.getFillDreta()
       while(substitut.getFillEsquerra() != null){
         substitut = substitut.getFillEsquerra()
       }
@@ -187,7 +194,7 @@ class Arbregen{
 
       if (node.getFillDreta().getNum() == substitut.getNum()) {
         //Cas en que el substitut és directament el fill dret
-        node.setFillDreta(substitut)
+        node.setFillDreta(substitut.getFillDreta())
       }else{
         //Actualitzarà un node anterior al substitut, eliminant el substitut del
         //seu lloc
