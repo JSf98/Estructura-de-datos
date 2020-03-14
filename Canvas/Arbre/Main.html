@@ -2,6 +2,22 @@
   <head>
     <title> Arbre binari </title>
     <meta charset="utf-8">
+    <style media="screen">
+      header{
+        text-align: center;
+        margin-bottom:0.2em;
+      }
+      article{
+        max-width: 100%;
+        max-height: 100%;
+        margin: 15px;
+        overflow-x: auto;
+        overflow-y: auto;
+        text-align: center;
+        flex-basis: 70%;
+        justify-content: center;
+      }
+    </style>
   </head>
 <body>
   <header>
@@ -11,7 +27,7 @@
     <button class="button" onclick="arbre.reiniciaArbre()">Reinicia arbre</button>
   </header>
   <article>
-    <canvas id="canvas" width="300" height="300"> El teu navegador no soporta el HTML5 canvas. </canvas>
+    <canvas id="canvas" width="800" height="800" style="border:1px solid #d3d3d3;"> El teu navegador no soporta el HTML5 canvas. </canvas>
   </article>
   <script src = "PintaArbre.js"> </script>
   <script src = "Arbregen.js"> </script>

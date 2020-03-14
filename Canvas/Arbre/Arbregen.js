@@ -51,7 +51,7 @@ class Arbregen{
   }
 
   //RECORREGUTS RECURSIUS
-  inOrdre (node = this.arrel) {
+  inOrdre (node ) {
     if (!node) {
       return
     }
@@ -90,7 +90,7 @@ class Arbregen{
     }
   }
 
-  postOrdre (node = this.root) {
+  postOrdre (node) {
     if (!node) {
       return
     }
