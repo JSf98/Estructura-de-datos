@@ -26,7 +26,15 @@ class PintaArbre{
     this.ctx.fillText(n.getNum(), coordenada.getPosX() - this.ctx.measureText(n.getNum()).width/2, coordenada.getPosY());
     this.ctx.arc(coordenada.getPosX(),coordenada.getPosY(), this.radi, 0, 2 * Math.PI);
     this.ctx.stroke();
-    //FALTA PINTAR LES DUES FLETXES EN EL CAS DE TENIR FILLS
+/*
+    if(n.getFillDreta() != null){
+      var coordenadaFilld = n.getFillDreta().getCoordenada()
+      this.drawArrow(coordenada.getPosX(), coordenada.getPosY(), coordenadaFilld.getPosX(), coordenadaFilld.getPosY(), "", 0, 0)
+    }
+    if (n.getFillEsquerra() != null) {
+      var coordenadaFille = n.getFillEsquerra().getCoordenada()
+      this.drawArrow(coordenada.getPosX(), coordenada.getPosY(), coordenadaFille.getPosX(), coordenadaFille.getPosY(), "", 0, 0)
+    }*/
   }
 
   pintaArbre(){
@@ -44,7 +52,7 @@ class PintaArbre{
     for (var i = 0; i < llista.length; i++) {
       var c = this.createPosition(prmax, llista[i].getIndex().profunditat, llista[i].getIndex().index, this.canvas.getAttribute('width'), this.canvas.getAttribute('height'))
       llista[i].setCoordenada(c)
-      console.log(c)
+      //console.log(c)
       this.pintaNode(llista[i])
     }
   }
@@ -96,6 +104,45 @@ class PintaArbre{
 			option.value = n;
 			s.add(option);
     }
+  }
+
+  drawArrow(fromx, fromy, tox, toy, txt, offsetx, offsety){
+    //variables to be used when creating the arrow
+    var headlen = 10;
+    var angle = Math.atan2(toy-fromy,tox-fromx);
+    var puntcentrex = (fromx+tox)/2 - this.ctx.measureText(txt).width/2 + offsetx;
+    var puntcentrey = (fromy+toy)/2 + offsety;
+
+    //starting path of the arrow from the start square to the end square and drawing the stroke
+    this.ctx.beginPath();
+    this.ctx.moveTo(fromx, fromy);
+    //Si es vol dibuixar un cercle, es aquí
+    this.ctx.stroke();
+    this.ctx.lineTo(tox, toy);
+    this.ctx.strokeStyle = "#cc0000";
+    this.ctx.lineWidth = 1;
+    this.ctx.stroke();
+    this.ctx.fillStyle = "#cc0000";
+    this.ctx.fillText(txt, puntcentrex, puntcentrey);
+
+    //starting a new path from the head of the arrow to one of the sides of the point
+    this.ctx.beginPath();
+    this.ctx.moveTo(tox, toy);
+    this.ctx.lineTo(tox-headlen*Math.cos(angle-Math.PI/7),toy-headlen*Math.sin(angle-Math.PI/7));
+
+    //path from the side point of the arrow, to the other side point
+    this.ctx.lineTo(tox-headlen*Math.cos(angle+Math.PI/7),toy-headlen*Math.sin(angle+Math.PI/7));
+
+    //path from the side point back to the tip of the arrow, and then again to the opposite side point
+    this.ctx.lineTo(tox, toy);
+    this.ctx.lineTo(tox-headlen*Math.cos(angle-Math.PI/7),toy-headlen*Math.sin(angle-Math.PI/7));
+
+    //draws the paths created above
+    this.ctx.strokeStyle = "#cc0000";
+    this.ctx.lineWidth = 1;
+    this.ctx.stroke();
+    this.ctx.fillStyle = "#cc0000";
+    this.ctx.fill();
   }
 
 }
