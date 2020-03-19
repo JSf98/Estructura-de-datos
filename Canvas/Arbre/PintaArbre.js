@@ -51,7 +51,7 @@ class PintaArbre{
 
   createPosition(profunditatMax, profunditat, index,  canvasWidth, canvasHeight){
     if (profunditat == 0) {
-      return new Coordenada(400,26)
+      return new Coordenada(400,30)
     }
     var x = index * canvasWidth / (Math.pow(2,profunditat) + 1)
     var y = profunditat * canvasHeight / (profunditatMax+1)
@@ -71,6 +71,7 @@ class PintaArbre{
     let s = document.getElementById(this.selector);
     this.arbre.eliminarNode(s.value);
     this.actualitzarSelector();
+    this.pintaArbre()
   }
 
   reiniciaArbre(){

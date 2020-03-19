@@ -4,11 +4,6 @@ class Arbregen{
 
   constructor(max){
     this.arrel;
-    this.nivells = [];
-    // Tenim un màxim (max) de nivells
-    for (var i = 0; i < max; i++) {
-      this.nivells.push([])
-    }
   }
 
   inserirNouNode(nouNum){
@@ -20,8 +15,6 @@ class Arbregen{
     if(this.estaBuid()){
       //Significa que no tenim arrel encara
       this.arrel = new Node(nouNum, null, new Index(profunditat,1));
-      //El nivell 0 sempre tendrà l'arrel
-      this.nivells[0] = this.arrel
       return;
     }
     var aux = this.arrel;
@@ -34,10 +27,7 @@ class Arbregen{
         aux = null
       }else if(aux.getNum() < nouNum){ //Dreta
         if(aux.getFillDreta() == null){
-          //var index = aux.getIndex().index * 2
-          //var index = this.nivells[profunditat].length +1
           var newNode = new Node(nouNum, aux, new Index(profunditat,null))
-          this.nivells[profunditat].push(newNode)
           aux.setFillDreta(newNode);
           return;
         }else{
@@ -45,10 +35,7 @@ class Arbregen{
         }
       }else { //if(aux.getNum() > Number.parseInt(nouNum)) // Esquerra
         if(aux.getFillEsquerra() == null){
-          //var index = aux.getIndex().index * 2 -1
-          //var index = this.nivells[profunditat].length +1
           var newNode = new Node(nouNum, aux, new Index(profunditat,null))
-          this.nivells[profunditat].push(newNode)
           aux.setFillEsquerra(newNode);
           return;
         }else{
