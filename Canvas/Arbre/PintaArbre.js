@@ -32,8 +32,15 @@ class PintaArbre{
   pintaArbre(){
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     var prmax = this.arbre.trobatProfunditat()
-    var llista = [];
-    this.arbre.preOrdre(this.arbre.arrel,llista);
+    var llista = []
+    var coa = []
+    coa.push(this.arbre.arrel)
+    this.arbre.actualitzaIndexos(coa,[], llista)
+    /*for (var i = 0; i < llista.length; i++) {
+      console.log(llista[i].getNum())
+      console.log(llista[i].getIndex())
+    }
+    console.log("========================================")*/
     for (var i = 0; i < llista.length; i++) {
       var c = this.createPosition(prmax, llista[i].getIndex().profunditat, llista[i].getIndex().index, this.canvas.getAttribute('width'), this.canvas.getAttribute('height'))
       llista[i].setCoordenada(c)
@@ -43,10 +50,13 @@ class PintaArbre{
   }
 
   createPosition(profunditatMax, profunditat, index,  canvasWidth, canvasHeight){
-    var x = index * canvasWidth / (2^profunditat + 1)
-    var y = profunditat * canvasHeight / profunditatMax
+    if (profunditat == 0) {
+      return new Coordenada(400,26)
+    }
+    var x = index * canvasWidth / (Math.pow(2,profunditat) + 1)
+    var y = profunditat * canvasHeight / (profunditatMax+1)
     //return new Coordenada(canvasHeight/profunditatMax*y,canvasWidth*x)
-    return new Coordenada(y,x)
+    return new Coordenada(x,y)
   }
 
   inserirNouNode(){
@@ -77,10 +87,6 @@ class PintaArbre{
     //Cream la llista dels nodes amb un preordre
     var llista = [];
     this.arbre.preOrdre(this.arbre.arrel,llista);
-    /*for (var i = 0; i < llista.length; i++) {
-      console.log(llista[i].getIndex())
-    }
-    console.log("========================================")*/
     //Cream les noves opcions
     for (var i = 0; i < llista.length; i++) {
 			let option = document.createElement("option");

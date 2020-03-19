@@ -25,6 +25,7 @@ class Arbregen{
       return;
     }
     var aux = this.arrel;
+    nouNum = Number.parseFloat(nouNum)
     while(aux){
       //Cada iteració és un nivell més
       profunditat++
@@ -34,19 +35,19 @@ class Arbregen{
       }else if(aux.getNum() < nouNum){ //Dreta
         if(aux.getFillDreta() == null){
           //var index = aux.getIndex().index * 2
-          var index = this.nivells[profunditat].length +1
-          var newNode = new Node(nouNum, aux, new Index(profunditat,index))
+          //var index = this.nivells[profunditat].length +1
+          var newNode = new Node(nouNum, aux, new Index(profunditat,null))
           this.nivells[profunditat].push(newNode)
           aux.setFillDreta(newNode);
           return;
         }else{
           aux = aux.getFillDreta();
         }
-      }else{ // arrel.getNum() > nouNum // Esquerra
+      }else { //if(aux.getNum() > Number.parseInt(nouNum)) // Esquerra
         if(aux.getFillEsquerra() == null){
           //var index = aux.getIndex().index * 2 -1
-          var index = this.nivells[profunditat].length +1
-          var newNode = new Node(nouNum, aux, new Index(profunditat,index))
+          //var index = this.nivells[profunditat].length +1
+          var newNode = new Node(nouNum, aux, new Index(profunditat,null))
           this.nivells[profunditat].push(newNode)
           aux.setFillEsquerra(newNode);
           return;
@@ -119,6 +120,35 @@ class Arbregen{
       this.postOrdre(node.getFillDreta())
     }
     console.log(node.getNum())
+  }
+
+  //Es farà utilitzant una amplada damunt l'arbre
+  actualitzaIndexos(coa, visitats, llista){
+    if (coa.length == 0){ // La coa ja esta buida
+      return;
+    }
+	  var n = coa.pop();
+    llista.push(n)
+
+    //Ho feim per cada fill del node
+    //En aquest cas sabem que al ser un arbre binari, com a màxim tendrà dos fills
+    var filld = n.getFillDreta();
+    var fille = n.getFillEsquerra();
+
+    if(filld != null){
+      filld.setIndex(new Index(filld.getIndex().profunditat, n.getIndex().index*2))
+        if(visitats.indexOf(filld) == -1){
+            coa.unshift(filld)
+        }
+    }
+    if(fille != null){
+      fille.setIndex(new Index(fille.getIndex().profunditat , n.getIndex().index * 2 - 1))
+        if(visitats.indexOf(fille) == -1){
+            coa.unshift(fille)
+        }
+    }
+
+		this.actualitzaIndexos(coa, visitats, llista);
   }
 
   /* El problema es que es binari, per tant ens pot sortir un arbre molt desordenat, per aixo
