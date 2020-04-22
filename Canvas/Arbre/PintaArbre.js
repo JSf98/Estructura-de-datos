@@ -42,7 +42,10 @@ class PintaArbre{
     var prmax = this.arbre.trobatProfunditat()
     var llista = []
     var coa = []
-    coa.push(this.arbre.arrel)
+    if(this.arbre.arrel != null){
+      //En cas constrari encara no tenim ningun node per tant no feim res
+      coa.push(this.arbre.arrel)
+    }
     this.arbre.actualitzaIndexos(coa,[], llista)
     /*for (var i = 0; i < llista.length; i++) {
       console.log(llista[i].getNum())
@@ -85,6 +88,7 @@ class PintaArbre{
   reiniciaArbre(){
     this.arbre.buidaArbre()
     this.actualitzarSelector()
+    this.pintaArbre()
   }
 
   actualitzarSelector(){

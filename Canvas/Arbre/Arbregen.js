@@ -2,6 +2,7 @@
 
 class Arbregen{
 
+  /* @max és el màxim de nodes que permetem inserir */
   constructor(max){
     this.arrel;
   }
@@ -114,6 +115,7 @@ class Arbregen{
     if (coa.length == 0){ // La coa ja esta buida
       return;
     }
+
 	  var n = coa.pop();
     llista.push(n)
 

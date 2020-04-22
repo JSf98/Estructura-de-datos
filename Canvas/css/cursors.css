@@ -1,0 +1,96 @@
+.opcio{
+    color : black;
+    font-family: Arial;
+    text-decoration: none;
+    transition: color 500ms;
+}
+
+.opcio:hover{
+    color: #AE6AFF;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 15px;
+  font-family: Arial;
+  text-align: left;
+}
+table #t01 {
+  width: 100%;
+  background-color: #f1f1f1;
+}
+
+#menu{
+  padding: 0;
+}
+
+#menu li {
+ display: inline;
+}
+
+#menu li a {
+  font-family: Arial;
+  text-decoration: none;
+  float: left;
+  padding: 10px;
+  background-color: #2175bc;
+  color: #fff;
+}
+
+#menu li a:hover {
+ background-color: #2586d7;
+ margin-top: -2;
+ padding-bottom: 12px;
+}
+
+body {
+  width:90%; 
+  height:90%; 
+  font-family: 'Roboto', 'Arial';
+}
+    
+#div {
+  width:100%; 
+  height:100%; 
+  margin:0 auto; 
+  overflow-x: auto; 
+  float:left
+}
+
+/*#canvas{border:1px solid #d3d3d3;}*/
+#caja {
+  width: 80%; 
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+#font {
+  font-size: 30;
+}
+    
+.caja header {
+  text-align:center;
+	margin-bottom:0.2em;
+}
+
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+article {
+  text-align: center;
+  flex-basis: 70%;
+  justify-content: center;
+}
