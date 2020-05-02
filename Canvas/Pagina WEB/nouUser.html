@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="DC.language" content="ca">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Jaume Sansó">
+    <meta name="DCTERMS.title" content="Crea un nou usuari">
+    <link rel="icon" href="img/indice.ico">
+
+    <title>Crea nou usuari</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/checkout/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/nouUser.css" rel="stylesheet">
+  </head>
+
+  <body class="bg-light">
+
+    <div class="container">
+      <div class="py-5 text-center">
+        <h2>Crea nou usuari</h2>
+        <p class="lead">Aquesta pàgina està pensada per a crear un nou usuari. Només pot accedir l'administrador.
+        Aquest pot triar entre els diferents nivells que pot tenir un usuari</p>
+      </div>
+
+        <div class="col-md-12 order-md-1">
+          <h4 class="mb-3">Dades necessàries</h4>
+          <form class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName">Usuari</label>
+                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  El nom d'usuari és un camp obligatori
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="address">Contrasenya</label>
+              <input type="password" class="form-control" id="address" placeholder="" required>
+              <div class="invalid-feedback">
+                Perfavor introdueix una contrasenya
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="address2">Contrasenya <span class="text-muted">(Un altra cop)</span></label>
+              <input type="password" class="form-control" id="address2" placeholder="">
+            </div>
+
+            <hr class="mb-4">
+            <div class="row">
+              <div class="col-md-5 mb-3">
+                <label for="country">Prioritat</label>
+                <select class="custom-select d-block w-100" id="country" required>
+                  <option value="">Valor predeterminat</option>
+                  <option>Valors</option>
+                </select>
+              </div>
+            </div>
+
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Crea usuari</button>
+          </form>
+        </div>
+      </div>
+
+      <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">®</p>
+        <ul class="list-inline">
+          <!--<li class="list-inline-item"><a href="#">Privacy</a></li>-->
+        </ul>
+      </footer>
+    </div>
+
+    
+  </body>
+</html>
