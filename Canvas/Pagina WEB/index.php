@@ -1,4 +1,4 @@
-<?php include "php/dadescon.php"; //IMPORT DE LA BASE DE DADES ?>
+<?php include "php/dadescon.php"; //IMPORT DE LA BASE DE DADES ?> 
 
 <html lang="ca">
   <head>
