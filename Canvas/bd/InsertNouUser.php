@@ -10,8 +10,8 @@
     Privilegi:
     <select name="opcions" required>
         <?php
-        include "dadescon.php";
-        $cadena = "SELECT * FROM tipusperfil";
+        include "php/dadescon.php";
+        $cadena = "SELECT * FROM tipusperfil where 1";
         $res = mysqli_query($con,$cadena);
         while ($reg=mysqli_fetch_array($res)) {
             echo "<OPTION VALUE='".$reg['id']."'>".$reg['tipus']."</OPTION>";

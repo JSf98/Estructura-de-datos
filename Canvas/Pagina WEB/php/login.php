@@ -1,6 +1,6 @@
 <?php session_start();
   if(empty($_POST['usr']) || empty($_POST['passw'])){
-    header("Location: login.html");
+    header("Location: ../login.html");
     die();
   }
 ?>
@@ -21,14 +21,14 @@
 
     if (empty($row)){
         echo("Usuari incorrecta");
-        ?><meta http-equiv="refresh" content="2; url=login.html"><?php
+        ?><meta http-equiv="refresh" content="2; url=../login.html"><?php
     }else if (!password_verify($pass, $row['password'])){
-        echo("Contraseña incorrecta");
-        ?><meta http-equiv="refresh" content="2; url=login.html"><?php
+        echo("Contrasenya incorrecta");
+        ?><meta http-equiv="refresh" content="2; url=../login.html"><?php
     }else{
         $_SESSION['usuariactual'] = $user;
         $_SESSION['tipus']= $row['tipus'];
-        ?><meta http-equiv="refresh" content="0; url=menu.php"><?php
+        ?><meta http-equiv="refresh" content="0; url=../index.php"><?php
     }
 ?>
 </body>

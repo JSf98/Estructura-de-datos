@@ -56,10 +56,21 @@ de la informació depenen exclusivament del seu ordre d'inserció (LIFO o FIFO).
 Les podem imaginar com una cadena lineal on el que varia es l'extrem desde on
 l'inserim, consultam o eliminam la informació.");
 
+INSERT INTO categoria (nom,descripcio) values
+("Arbre","Conjunt finit de un o més nodes on hi ha un denominador arrel dins l'arbre, i el
+reste d'elements està dividit en n>=0 conjunts disjunts T1...Tn on cada conjunt és un arbre.");
+
 INSERT INTO estructura (nom, url_estructura,categoria,descripcio) values
 ("Pila FIFO","PilaEnllaçada.html",1,"El elements s'obtenen en l'ordre d'insersió.
 Tenim un marcador TOP que sempre marca la cima. S'han de tenir en comtpe errors dels tipus
 desempilar quan no hi ha elements, quan es vol mirar la cima i la pila està buida");
+
+INSERT INTO estructura (nom,url_estructura,categoria,descripcio) values
+("Llista Cursor","../Llista_Cursor/EnllaçadaCursor.html",1,"Estructura implementada amb un array.
+Cada posició conté un cursor al següent element. Permet gestionar varies llistes dins un sol array");
+
+INSERT INTO estructura (nom, url_estructura,categoria,descripcio) values
+("Pila FIFO","../Arbre/arbre.html",2,"Arbre binari no balancejat");
 
 INSERT INTO opcio(titol,url) VALUES
 ("Inserir nova estructura","alta.php"),

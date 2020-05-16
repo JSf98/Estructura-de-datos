@@ -20,7 +20,7 @@
   </head>
 
   <body>
-    <form class="form-signin">
+    <form name="flogin" method="post" action ="php/login.php" class="form-signin">
       <div class="text-center mb-4">
         <img class="mb-4" src="img/uib-logo.png" alt="" width="30%" height="30%">
         <h1 class="h3 mb-3 font-weight-normal"> </h1>
@@ -29,12 +29,12 @@
       </div>
 
       <div class="form-label-group">
-        <input type="text" id="inputUser" class="form-control" required autofocus>
+        <input name = "usr" type="text" id="inputUser" class="form-control" required autofocus>
         <label for="inputEmail">Usuari</label>
       </div>
 
       <div class="form-label-group">
-        <input type="password" id="inputPassword" class="form-control" required>
+        <input name = "passw" type="password" id="inputPassword" class="form-control" required>
         <label for="inputPassword">Contrasenya</label>
       </div>
 

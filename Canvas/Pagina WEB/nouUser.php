@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="es">
+<?php include "php/dadescon.php"; ?>
+<html lang="ca">
   <head>
     <meta charset="utf-8">
     <meta name="DC.language" content="ca">
@@ -30,11 +30,11 @@
 
         <div class="col-md-12 order-md-1">
           <h4 class="mb-3">Dades necessàries</h4>
-          <form class="needs-validation" novalidate>
+          <form name="f" method="post" action="nouUser.php">
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="firstName">Usuari</label>
-                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                <input name = "usr" type="text" class="form-control" id="user" placeholder="" required>
                 <div class="invalid-feedback">
                   El nom d'usuari és un camp obligatori
                 </div>
@@ -43,7 +43,7 @@
 
             <div class="mb-3">
               <label for="address">Contrasenya</label>
-              <input type="password" class="form-control" id="address" placeholder="" required>
+              <input name = "pass" type="password" class="form-control" id="password" placeholder="" required>
               <div class="invalid-feedback">
                 Perfavor introdueix una contrasenya
               </div>
@@ -51,22 +51,41 @@
 
             <div class="mb-3">
               <label for="address2">Contrasenya <span class="text-muted">(Un altra cop)</span></label>
-              <input type="password" class="form-control" id="address2" placeholder="">
+              <input name = "pass2" type="password" class="form-control" id="password2" placeholder="">
             </div>
+
+            <script>
+              function comprovarClaus(){
+                pass1 = document.f.pass.value;
+                pass2 = document.f.pass2.value;
+
+                if (pass1 != pass2){
+                  document.f.pass.value = "";
+                  document.f.pass2.value = "";
+                  alert("La contrasenya no coincideix. Perfavor torna-ho a intentar");
+                }
+              }
+            </script>
 
             <hr class="mb-4">
             <div class="row">
               <div class="col-md-5 mb-3">
                 <label for="country">Prioritat</label>
-                <select class="custom-select d-block w-100" id="country" required>
-                  <option value="">Valor predeterminat</option>
-                  <option>Valors</option>
+                <select name = "prioritat" class="custom-select d-block w-100" id="prioritat" required>
+                  <?php
+                  $cadena = "SELECT * FROM tipusperfil where 1";
+                  $res = mysqli_query($con,$cadena);
+                  while ($reg=mysqli_fetch_array($res)) {
+                      echo "<option value='".$reg['id']."'>".$reg['tipus']."</option>";
+                  }
+                  mysqli_close($con);
+                  ?>
                 </select>
               </div>
             </div>
 
             <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Crea usuari</button>
+            <button class="btn btn-primary btn-lg btn-block" onclick="comprovarClaus()" type="submit">Crea usuari</button>
           </form>
         </div>
       </div>
@@ -78,7 +97,20 @@
         </ul>
       </footer>
     </div>
-
-    
   </body>
 </html>
+
+<?php
+if (isset($_POST['usr'])){ // Basta mirar-ne un que no sigui null
+  $usr = $_POST['usr'];
+  $pass = $_POST['pass'];
+  //$pass2 = $_POST['pass2'];
+  $tipus = $_POST['prioritat'];
+
+  include "php/dadescon.php";
+
+  $pass = password_hash($pass , PASSWORD_DEFAULT);
+  $cadena = "INSERT INTO usuari (user, password, tipus) VALUES ('$usr', '$pass', $tipus)";
+  mysqli_query($con,$cadena);
+}
+?>
