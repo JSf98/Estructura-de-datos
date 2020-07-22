@@ -21,7 +21,7 @@
     #divisio {width:800px; height: 250px; max-width: 100%; margin: 15px; overflow-x: auto; float: left;}
     #divisio2 {width: 500px; height: 500px; margin: 15px; overflow-y: auto; float: left;}
     .button {
-      background-color: #4CAF50; 
+      background-color: #4CAF50;
       border: none;
       color: white;
       padding: 15px 32px;
@@ -32,9 +32,9 @@
       margin: 4px 2px;
       cursor: pointer;
     }
-    .button2 {background-color: #008CBA;} 
-    .button3 {background-color: #f44336;} 
-    .button4 {background-color: #e7e7e7; color: black;} 
+    .button2 {background-color: #008CBA;}
+    .button3 {background-color: #f44336;}
+    .button4 {background-color: #e7e7e7; color: black;}
   </style>
 </head>
 <body>
@@ -52,20 +52,19 @@
         <button class="button button4" onclick="buida()">Buida</button>
       </ul>
       </nav>
-    <article> 
+    <article style="display: flex; flex-direction: row; justify-content: center;">
       <div id="divisio">
         <!--style="border:1px solid #d3d3d3;"-->
         <canvas id="mycanvas" width="700" height="200" >
           El teu navegador no soporta el HTML5 canvas.</canvas>
       </div>
-    </article>
-    <aside>
+
       <div id="divisio2">
         <canvas id="mycanvas2" width="400" height="400" float= "right">
           El teu navegador no soporta el HTML5 canvas.</canvas>
       </div>
-    </aside>
-    
+    </article>
+
   </div>
   <!-- IMPORTS -->
   <script src = "PilaPunters.js "> </script>

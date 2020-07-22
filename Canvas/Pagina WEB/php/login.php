@@ -1,7 +1,7 @@
 <?php session_start();
   if(empty($_POST['usr']) || empty($_POST['passw'])){
     header("Location: ../login.html");
-    die();
+    die(); //Impedeix executar el codi que segueix
   }
 ?>
 

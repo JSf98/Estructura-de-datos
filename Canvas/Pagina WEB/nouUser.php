@@ -1,4 +1,19 @@
 <?php include "php/dadescon.php"; ?>
+<?php session_start();
+  if(!isset($_SESSION['usuariactual'])){
+    ?><meta http-equiv="refresh" content="0; url=login.html"><?php
+  }else{
+      $url = basename($_SERVER['PHP_SELF']); // A on estem actualment
+      $cadena = " SELECT * FROM privilegi join opcio on opcio.id = privilegi.opcio and privilegi.perfil = $_SESSION[tipus] where opcio.url = '$url' ";
+      $resultat = mysqli_query($con,$cadena);
+
+      if(empty(mysqli_fetch_array($resultat))){
+          //Significa que l'usuari que ha entrat no te permisos necessaris
+          header("Location: login.html");
+          die(); //Impedeix executar el codi que segueix
+      }
+    }
+?>
 <html lang="ca">
   <head>
     <meta charset="utf-8">
