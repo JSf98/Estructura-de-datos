@@ -1,9 +1,12 @@
+<?php
+  $prefixe = "../Pagina_WEB/";
+  include "../include/barra_menu.php"
+?> <!-- INCLUDE BARRA MENÚ-->
 <html>
 <head>
-  <link href="../css/cursors.css" rel="stylesheet">
+  <link href="Cursor.css" rel="stylesheet">
   <title> Enllaçada amb cursor </title>
   <meta charset="utf-8">
-  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="caja">
@@ -32,7 +35,7 @@
 
   <!--IMPORTS-->
   <script src = "LlistaCursor.js"> </script>
-  <script src = "../Import/Node.js"> </script>
+  <script src = "Node.js"> </script>
   <script src = "Punter.js"> </script>
 
   <script>

@@ -1,6 +1,11 @@
+<?php
+$prefixe = "../Pagina_WEB/";
+include "../include/barra_menu.php"
+?> <!-- INCLUDE BARRA MENÚ-->
+
 <html>
   <head>
-    <link href="../css/arbrebinari.css" rel="stylesheet">
+   <link href="arbrebinari.css" rel="stylesheet">
     <title> Arbre binari </title>
     <meta charset="utf-8">
   </head>

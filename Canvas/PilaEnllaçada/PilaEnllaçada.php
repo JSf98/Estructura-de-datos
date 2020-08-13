@@ -1,65 +1,38 @@
-<!doctype html>
+<?php
+  $prefixe = "../Pagina_WEB/";
+  include "../include/barra_menu.php"
+?> <!-- INCLUDE BARRA MENÚ-->
+
 <html>
 <head>
+  <link href="Pila.css" rel="stylesheet">
   <title> Pila Enllaçada </title>
   <meta charset="utf-8">
-  <style>
-    #caja {width: 80%; margin-left: auto; margin-right: auto;}
-    .caja header {
-	    text-align:center;
-	    margin-bottom:0.2em;
-    }
-    nav ul {
-      text-align: center;
-    }
-    article {
-      text-align: center;
-      flex-basis: 70%;
-      justify-content: center;
-    }
-    #divisio {width:800px; height: 250px; max-width: 100%; margin: 15px; overflow-x: auto; float: left;}
-    #divisio2 {width: 500px; height: 500px; margin: 15px; overflow-y: auto; float: left;}
-    .button {
-      background-color: #4CAF50;
-      border: none;
-      color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      cursor: pointer;
-    }
-    .button2 {background-color: #008CBA;}
-    .button3 {background-color: #f44336;}
-    .button4 {background-color: #e7e7e7; color: black;}
-  </style>
 </head>
 <body>
 
   <div class ="caja">
     <header>
-      <h1>PILA ENLLAÇADA (LIFO)</h1>
+      <h2>PILA ENLLAÇADA (LIFO)</h2>
     </header>
     <nav>
       <ul>
       <p> Quantitat d'elements no definits. Aprofita l'ús de la memòria dinàmica.</p>
         <button class="button" onclick="empilar()">Empila</button>
-        <button class="button button2" onclick="desempila()">Desempila</button>
-        <button class="button button3" onclick="pila.cima()">Cima</button>
-        <button class="button button4" onclick="buida()">Buida</button>
+        <button class="button" onclick="desempila()">Desempila</button>
+        <button class="button" onclick="pila.cima()">Cima</button>
+        <button class="button" onclick="buida()">Buida</button>
       </ul>
       </nav>
     <article style="display: flex; flex-direction: row; justify-content: center;">
       <div id="divisio">
         <!--style="border:1px solid #d3d3d3;"-->
-        <canvas id="mycanvas" width="700" height="200" >
+        <canvas id="mycanvas" width="700" height="200" style="border:1px solid #d3d3d3;">
           El teu navegador no soporta el HTML5 canvas.</canvas>
       </div>
 
       <div id="divisio2">
-        <canvas id="mycanvas2" width="400" height="400" float= "right">
+        <canvas id="mycanvas2" width="400" height="400" float= "right" style="border:1px solid #d3d3d3;">
           El teu navegador no soporta el HTML5 canvas.</canvas>
       </div>
     </article>
@@ -68,7 +41,7 @@
   <!-- IMPORTS -->
   <script src = "PilaPunters.js "> </script>
   <script src = "PilaGen.js "> </script>
-  <script src = "../Import/Node.js "> </script>
+  <script src = "Node.js "> </script>
   <script>
     //Passam per paràmetre el canvas
     var limitCaselles = 7;

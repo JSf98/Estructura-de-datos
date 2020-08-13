@@ -1,0 +1,33 @@
+#caja {width: 80%; margin-left: auto; margin-right: auto;}
+
+.caja header {
+  text-align:center;
+  margin-bottom:0.2em;
+}
+
+nav ul {
+  text-align: center;
+}
+
+article {
+  text-align: center;
+  flex-basis: 70%;
+  justify-content: center;
+}
+
+#divisio {width:800px; height: 250px; max-width: 100%; margin: 15px; overflow-x: auto; float: left;}
+
+#divisio2 {width: 500px; height: 500px; margin: 15px; overflow-y: auto; float: left;}
+
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
