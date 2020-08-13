@@ -57,7 +57,7 @@ if(isset($_GET["out"])){
             $cadena = " SELECT opcio.id, opcio.url, opcio.titol from privilegi inner join opcio on privilegi.opcio = opcio.id and privilegi.perfil = $_SESSION[tipus] ";
             $resultat = mysqli_query($con,$cadena);
             //Mostram les opcions del usuari
-            echo "<li class=\"nav-item dropdown\">";
+            echo "<li style=\"cursor: pointer;\" class=\"nav-item dropdown\">";
             echo "<a class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"> Permisos </a>";
             echo  "<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdown\">";
             while($row = mysqli_fetch_array($resultat)){
@@ -80,7 +80,7 @@ if(isset($_GET["out"])){
         <?php
             $cadena = "SELECT nom, id from categoria";
             $resultat = mysqli_query($con,$cadena);
-            echo "<li class=\"nav-item dropdown\">";
+            echo "<li style=\"cursor: pointer;\" class=\"nav-item dropdown\">";
             echo "<a class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"> Estructures </a>";
             echo  "<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdown\">";
             while($row = mysqli_fetch_array($resultat)){ // Printeam totes les categories disponibles
