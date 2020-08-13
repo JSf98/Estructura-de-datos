@@ -1,5 +1,5 @@
 <?php include "php/dadescon.php"; ?>
-<?php session_start();
+<?php 
   if(!isset($_SESSION['usuariactual'])){
     ?><meta http-equiv="refresh" content="0; url=login.html"><?php
   }else{

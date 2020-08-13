@@ -1,5 +1,5 @@
 <?php include "php/dadescon.php"; //IMPORT DE LA BASE DE DADES ?>
-<?php session_start();?>
+
 <?php
 //Comprovació del deslogin
 if(isset($_GET["out"])){
