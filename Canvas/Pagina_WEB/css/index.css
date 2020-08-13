@@ -13,7 +13,7 @@ h2 {
 }
 
 h2 a:hover {
-    color: #d38cff !important;
+    color: #0AB4EF !important;
     text-decoration: none;
     transition: color 500ms !important;
 }

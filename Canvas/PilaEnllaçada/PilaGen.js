@@ -73,7 +73,7 @@ class PilaGen { //PILA GENÈRICA
 
   pintaNode(n){
     this.ctx.beginPath();
-    this.ctx.fillStyle = "#B1E7BB";
+    this.ctx.fillStyle = "#6FD0F1";
     this.ctx.fillRect(n.getposx(),n.getposy(), this.qample, this.qaltura); //Dibuixa un rectangle ple
     this.ctx.fillStyle = "#000000";
     this.ctx.strokeRect(n.getposx(),n.getposy(),this.qample,this.qaltura);
