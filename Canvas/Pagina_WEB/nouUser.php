@@ -1,4 +1,6 @@
-<?php include "../include/barra_menu.php"?>
+<?php
+$prefixe = "";
+include "../include/barra_menu.php"?>
 <?php
   if(!isset($_SESSION['usuariactual'])){
     ?><meta http-equiv="refresh" content="0; url=login.html"><?php

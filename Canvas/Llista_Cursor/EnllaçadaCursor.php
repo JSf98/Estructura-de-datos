@@ -25,8 +25,8 @@
         </ul>
       </nav>
     </header>
-    <article style="display: flex; flex-direction: row; justify-content: center;">
-    <div >
+    <article >
+    <div>
       <canvas id="canvas" width="800" height="500">
         El teu navegador no soporta el HTML5 canvas.</canvas>
     </div>

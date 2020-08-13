@@ -12,6 +12,7 @@ include "../include/barra_menu.php"
 
 <body>
   <header>
+    <h2>ARBRE BINARI</h2>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <select id="selector"></select>
     <button class="button" onclick="arbre.inserirNouNode()">Inserir nou Node</button>
