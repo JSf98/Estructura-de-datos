@@ -64,7 +64,7 @@ include "../include/barra_menu.php"?>
 
         <div class="col-md-12 order-md-1">
           <h4 class="mb-3">Dades necessàries</h4>
-          <form name="f" method="post" onsubmit="inserirCat()" action="categoria.php">
+          <form name="f"  onsubmit="inserirCat(event)" >
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="firstName">Nom de la categoria</label>
@@ -77,7 +77,7 @@ include "../include/barra_menu.php"?>
 
             <div class="form-group">
               <label for="descripcio">Despcripció</label>
-              <textarea name= "textArea" class="form-control" id="textArea" rows="3" maxlength="255"></textarea>
+              <textarea name= "textArea" class="form-control" id="textArea" style= "resize:none" rows="4" maxlength="255"></textarea>
             </div>
 
             <script>
@@ -85,28 +85,39 @@ include "../include/barra_menu.php"?>
               function comprovaCategoria(){
                 nomcat = document.f.namecat.value.toUpperCase(); //Ho passam a mayuscula
                 $.post( "categoria.php", { cat : nomcat }).done(function(data) {
+                  if(nomcat.length == 0){
+                    $("#btn").attr("disabled","disabled");
+                  }else{
                     if(data == "true"){
                       //Significa que existeix la categoria
                       $("#namecat").addClass("is-invalid");
-                      $("#btn").addClass("disabled");
+                      $("#btn").attr("disabled","disabled");
                     }else{
                       $("#namecat").removeClass("is-invalid");
-                      $("#btn").addClass("enabled");
+                      $("#btn").removeAttr("disabled");
                     }
+                }
                 });
               }
 
-              function inserirCat(){
+              function inserirCat(e){
+                e.preventDefault();
                 nomcat = document.f.namecat.value;
                 desc = document.f.textArea.value;
                 $.post( "categoria.php", { catt : nomcat, descp: desc}).done(function(data) {
-
+                    $("#succes").removeClass("d-none");
                 });
               }
             </script>
 
             <hr class="mb-4">
-            <button id = "btn" class="btn btn-primary btn-lg btn-block" type="submit">Crea categoria</button>
+            <center>
+            <button id = "btn" class="btn btn-primary btn-lg" type="submit" disabled>Crea categoria</button>
+            </center>
+            <br><br>
+            <div class="alert alert-success d-none" id ="succes" >
+                <strong>Perfecte!</strong> S'ha inserit correctament.
+            </div>
           </form>
         </div>
       </div>
@@ -127,10 +138,10 @@ if (isset($_POST['catt'])){ // Basta mirar-ne un que no sigui null
   $txtarea = $_POST['descp'];
 
   include "php/dadescon.php";
-  $cadena = " SELECT nom FROM categoria WHERE UPPER(nom) = '$_POST[catt]' ";
+  $cadena = " SELECT nom FROM categoria WHERE UPPER(nom) = '$categoria' ";
   $res = mysqli_query($con,$cadena);
   $reg = mysqli_fetch_array($res);
-  if (empty($reg)) {
+  if (empty($reg)) { //Tornam a comprovar que la categoria no existeix
     $cadena = "INSERT INTO categoria (nom, descripcio) VALUES ('$categoria', '$txtarea')";
     mysqli_query($con,$cadena);
     die();

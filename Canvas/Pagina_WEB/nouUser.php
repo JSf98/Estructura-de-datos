@@ -47,7 +47,7 @@ include "../include/barra_menu.php"?>
 
         <div class="col-md-12 order-md-1">
           <h4 class="mb-3">Dades necessàries</h4>
-          <form name="f" method="post" action="nouUser.php">
+          <form name="f" onsubmit="succes(event)">
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="firstName">Usuari</label>
@@ -62,7 +62,7 @@ include "../include/barra_menu.php"?>
               <label for="address">Contrasenya</label>
               <input name = "pass" type="password" class="form-control" id="password" placeholder="" required>
               <div class="invalid-feedback">
-                Perfavor introdueix una contrasenya
+                La contrasenya no coincideix. Per favor torna-ho a intentar.
               </div>
             </div>
 
@@ -72,6 +72,7 @@ include "../include/barra_menu.php"?>
             </div>
 
             <script>
+
               function comprovarClaus(){
                 pass1 = document.f.pass.value;
                 pass2 = document.f.pass2.value;
@@ -79,8 +80,22 @@ include "../include/barra_menu.php"?>
                 if (pass1 != pass2){
                   document.f.pass.value = "";
                   document.f.pass2.value = "";
-                  alert("La contrasenya no coincideix. Perfavor torna-ho a intentar");
+                  $("#password").addClass("is-invalid");
+                  //alert("La contrasenya no coincideix. Per favor torna-ho a intentar");
                 }
+              }
+
+              function succes(e){
+                e.preventDefault();
+                usuari = document.f.usr.value;
+                password = document.f.pass.value;
+                type = document.f.prioritat.value;
+                $.post( "nouUser.php", { usr : usuari, pass: password, tipus: type}).done(function(data) {
+                    $("#succes").removeClass("d-none");
+                    document.f.usr.value= "";
+                    document.f.pass.value = "";
+                    document.f.pass2.value = "";
+                });
               }
             </script>
 
@@ -102,7 +117,13 @@ include "../include/barra_menu.php"?>
             </div>
 
             <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" onclick="comprovarClaus()" type="submit">Crea usuari</button>
+            <center>
+            <button class="btn btn-primary btn-lg " onclick="comprovarClaus()" type="submit">Crea usuari</button>
+          </center>
+          <br><br>
+          <div class="alert alert-success d-none" id ="succes" >
+              <strong>Perfecte!</strong> S'ha inserit correctament.
+          </div>
           </form>
         </div>
       </div>
@@ -122,12 +143,12 @@ if (isset($_POST['usr'])){ // Basta mirar-ne un que no sigui null
   $usr = $_POST['usr'];
   $pass = $_POST['pass'];
   //$pass2 = $_POST['pass2'];
-  $tipus = $_POST['prioritat'];
-
+  $tipus = $_POST['tipus'];
   include "php/dadescon.php";
 
   $pass = password_hash($pass , PASSWORD_DEFAULT);
   $cadena = "INSERT INTO usuari (user, password, tipus) VALUES ('$usr', '$pass', $tipus)";
   mysqli_query($con,$cadena);
+  die();
 }
 ?>
