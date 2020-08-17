@@ -66,7 +66,7 @@ if(isset($_GET["out"])){
             }
             echo "</div></li>";?>
             <li class = "nav-item ">
-              <a class="nav-link" href="index.php?out=true">Desconexió<span class="sr-only"></span></a>
+              <a class="nav-link" href="index.php?out=true">Desconnexió<span class="sr-only"></span></a>
             </li><?php
           }else{ //Donam la opció de fer login
             ?><li class="nav-item ">
@@ -94,5 +94,5 @@ if(isset($_GET["out"])){
 </header>
 </html>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src = "../Pagina_WEB/bootstrap/js/bootstrap.min.js"> </script>
