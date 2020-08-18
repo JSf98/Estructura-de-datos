@@ -40,7 +40,7 @@ include "../include/barra_menu.php"?>
     <meta name="DC.language" content="ca">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Jaume Sansó">
-    <meta name="DCTERMS.title" content="Crea un nou usuari">
+    <meta name="DCTERMS.title" content="Crea nova categoria">
     <link rel="icon" href="img/indice.ico">
 
     <title>Crear nova categoria</title>

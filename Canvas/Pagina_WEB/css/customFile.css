@@ -1,0 +1,24 @@
+#texto{
+  padding-top: 8px;
+	text-align: center;
+  vertical-align: middle;
+	color:white;
+}
+
+#div_file{
+  position: relative;
+  cursor: pointer;
+  padding: 1px 5px;
+  margin-bottom: 15px;
+}
+
+#filechooser{
+    position: absolute;
+  	top:0px;
+  	left:0px;
+  	right:0px;
+  	bottom:0px;
+  	width:100%;
+  	height:100%;
+  	opacity: 0;
+}
