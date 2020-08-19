@@ -1,4 +1,3 @@
-
 <?php
 if (isset($_POST['estructura'])){
   //Miram que la estructura no existeixi per quan l'usuari escriu el nom
@@ -20,6 +19,7 @@ if (isset($_POST['estructura'])){
 //Penja la imatge que ha seleccionat l'usuari
   if (isset($_FILES['img'])){
     include "php/dadescon.php";
+    $reply = array();
     if (($_FILES["img"]["type"] == "image/pjpeg")
           || ($_FILES["img"]["type"] == "image/jpeg")
           || ($_FILES["img"]["type"] == "image/png")
@@ -44,6 +44,7 @@ if (isset($_POST['estructura'])){
         );
       }
       mysqli_close($con);
+      echo json_encode($reply);
       die();
   }
 ?>
@@ -147,7 +148,7 @@ include "../include/barra_menu.php"?>
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="firstName">Nom de la estructura</label>
-                <input name = "namestruct" type="text" onkeyup="comprovaEstructura()" class="form-control" id="namestruct" placeholder="" required>
+                <input name = "namestruct" type="text" onkeyup="comprovaEstructura()" class="form-control" id="namestructura" placeholder="" required>
                 <div class="invalid-feedback">
                   La estructura ja existeix
                 </div>
@@ -166,6 +167,7 @@ include "../include/barra_menu.php"?>
             <button type="button" class="btn btn-primary btn-lg"  onclick = "exploreFolder('../')" data-toggle="modal" data-target="#modalIndex">
                 Tria arxiu
             </button>
+            <div id="path_de_estructura"></div>
 
             <!-- Modal -->
             <div class="modal fade" id="modalIndex" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -204,6 +206,8 @@ include "../include/barra_menu.php"?>
                       function savePath(ruta){
                         //console.log(ruta);
                         path_index = ruta;
+                        $('#modalIndex').modal('hide');
+                        $('#path_de_estructura').append(ruta);
                       }
 
                     </script>
@@ -268,19 +272,20 @@ include "../include/barra_menu.php"?>
             </div>
 
             <script>
-              /*Comprova si el nom de la categoria existeix*/
+              /*Comprova si el nom de la estructura existeix*/
               function comprovaEstructura(){
-                estruc = document.f.namestruct.value.toUpperCase(); //Ho passam a mayuscula
+                estruc = document.f.namestructura.value.toUpperCase(); //Ho passam a mayuscula
                 $.post( "estructura.php", { estructura : estruc }).done(function(data) {
                   if(estruc.length == 0){
                     $("#btn").attr("disabled","disabled"); //Desactivam el botó
                   }else{
+                    //console.log(data);
                     if(data == "true"){
                       //Significa que existeix la categoria
-                      $("#namestruct").addClass("is-invalid");
+                      $("#namestructura").addClass("is-invalid");
                       $("#btn").attr("disabled","disabled");
                     }else{
-                      $("#namestruct").removeClass("is-invalid");
+                      $("#namestructura").removeClass("is-invalid");
                       $("#btn").removeAttr("disabled");
                     }
                 }
@@ -289,12 +294,14 @@ include "../include/barra_menu.php"?>
 
               function inserirEstructura(e){
                 e.preventDefault();
-                nomestructura = document.f.namestruct.value;
+                nomestructura = document.f.namestructura.value;
                 desc = document.f.textArea.value;
                 cat = document.f.categoria.value;
                 //Passar path_img
                 $.post( "estructura.php", {nom_estructura : nomestructura, descp : desc,  path_img, path_index, categoria:cat}).done(function(data) {
                     $("#succes").removeClass("d-none");
+                    document.f.namestructura.value = "";
+                    document.f.textArea.value = "";
                 });
               }
             </script>
@@ -323,7 +330,7 @@ include "../include/barra_menu.php"?>
 
 <?php
 if (isset($_POST['nom_estructura'])){ // Basta mirar-ne un que no sigui null
-  
+
   $nom = $_POST['nom_estructura'];
   $txtarea = $_POST['descp'];
   $img = $_POST['path_img'];
@@ -331,11 +338,11 @@ if (isset($_POST['nom_estructura'])){ // Basta mirar-ne un que no sigui null
   $categoria = $_POST['categoria'];
 
   include "php/dadescon.php";
-  $cadena = " SELECT nom FROM categoria WHERE UPPER(nom) = '$categoria' ";
+  $cadena = " SELECT nom FROM estructura WHERE UPPER(nom) = '$nom' ";
   $res = mysqli_query($con,$cadena);
   $reg = mysqli_fetch_array($res);
-  if (empty($reg)) { //Tornam a comprovar que la categoria no existeix
-    $cadena = "INSERT INTO categoria (nom, descripcio) VALUES ('$categoria', '$txtarea')";
+  if (empty($reg)) { //Tornam a comprovar que la estructura no existeix
+    $cadena = "INSERT INTO estructura (nom, url_img, url_estructura, categoria, descripcio) VALUES ('$nom','$img','$index','$categoria','$txtarea')";
     mysqli_query($con,$cadena);
     die();
   }

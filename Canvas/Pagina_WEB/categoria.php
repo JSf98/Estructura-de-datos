@@ -106,6 +106,7 @@ include "../include/barra_menu.php"?>
                 desc = document.f.textArea.value;
                 $.post( "categoria.php", { catt : nomcat, descp: desc}).done(function(data) {
                     $("#succes").removeClass("d-none");
+                    document.f.namecat.value = "";
                 });
               }
             </script>
