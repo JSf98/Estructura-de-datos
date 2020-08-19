@@ -81,7 +81,7 @@ if(isset($_GET["out"])){
             $cadena = "SELECT nom, id from categoria";
             $resultat = mysqli_query($con,$cadena);
             echo "<li style=\"cursor: pointer;\" class=\"nav-item dropdown\">";
-            echo "<a class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"> Estructures </a>";
+            echo "<a class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"> Categories </a>";
             echo  "<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdown\">";
             while($row = mysqli_fetch_array($resultat)){ // Printeam totes les categories disponibles
               //echo "<li class=\"nav-item active\"> <a class=\"nav-link\" href=\"$prefixe"."index.php?id=$row[id]\"> $row[nom] <span class=\"sr-only\"></span></a> </li>";
