@@ -1,5 +1,3 @@
-<?php include "../Pagina_WEB/php/dadescon.php"; //IMPORT DE LA BASE DE DADES ?>
-
 <?php
 //Comprovació del deslogin
 if(isset($_GET["out"])){
@@ -54,13 +52,15 @@ if(isset($_GET["out"])){
       <ul class="navbar-nav mr-auto">
         <?php
           if(isset($_SESSION['usuariactual'])){ //Si ha iniciat sessió l'administrador
-            $cadena = " SELECT opcio.id, opcio.url, opcio.titol from privilegi inner join opcio on privilegi.opcio = opcio.id and privilegi.perfil = $_SESSION[tipus] ";
-            $resultat = mysqli_query($con,$cadena);
+            $cadena = " SELECT opcio.id, opcio.url, opcio.titol from privilegi inner join opcio on privilegi.opcio = opcio.id and privilegi.perfil = ? ";
+            $stmt = $db->prepare($cadena);
+            $stmt->execute(array($_SESSION['tipus']));
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC); //Ho passam a array
             //Mostram les opcions del usuari
             echo "<li style=\"cursor: pointer;\" class=\"nav-item dropdown\">";
             echo "<a class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"> Permisos </a>";
             echo  "<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdown\">";
-            while($row = mysqli_fetch_array($resultat)){
+            foreach ($results as $row){
                 //echo "<li class=\"nav-item\"> <a class=\"nav-link\" href=$row[url]> $row[titol] <span class=\"sr-only\"></span></a> </li>";
                   echo  "<a class=\"dropdown-item\" href=$row[url]> $row[titol] <span class=\"sr-only\"></span></a>";
             }
@@ -79,11 +79,12 @@ if(isset($_GET["out"])){
         </li>-->
         <?php
             $cadena = "SELECT nom, id from categoria";
-            $resultat = mysqli_query($con,$cadena);
+            $stmt = $db->query($cadena);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC); //Ho passam a array
             echo "<li style=\"cursor: pointer;\" class=\"nav-item dropdown\">";
             echo "<a class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"> Categories </a>";
             echo  "<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdown\">";
-            while($row = mysqli_fetch_array($resultat)){ // Printeam totes les categories disponibles
+            foreach ($results as $row){ // Printeam totes les categories disponibles
               //echo "<li class=\"nav-item active\"> <a class=\"nav-link\" href=\"$prefixe"."index.php?id=$row[id]\"> $row[nom] <span class=\"sr-only\"></span></a> </li>";
               echo  "<a class=\"dropdown-item\" href=\"$prefixe"."index.php?id=$row[id]\"> $row[nom] <span class=\"sr-only\"></span></a>";
             }

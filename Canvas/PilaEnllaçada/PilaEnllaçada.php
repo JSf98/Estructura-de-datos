@@ -1,4 +1,5 @@
 <?php
+include "../Pagina_WEB/php/dadescon.php"; 
   $prefixe = "../Pagina_WEB/";
   include "../include/barra_menu.php"
 ?> <!-- INCLUDE BARRA MENÚ-->

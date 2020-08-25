@@ -1,7 +1,12 @@
 <?php
     session_start();
-    $con=mysqli_connect("localhost","root","")
-    or die ("Problemes a localhost");
-    $db=mysqli_select_db($con,"estructures") //Nom de la base de dades
-    or die("Problemes a selecció de bd");
+    try {
+      $usuario = "root";
+      $contraseña = "";
+      //Conexió a la BD
+      $db = new PDO('mysql:host=localhost;dbname=estructures', $usuario, $contraseña);
+    } catch (PDOException $e) {
+      print "¡Error!: " . $e->getMessage() . "<br/>";
+      die();
+    }
 ?>

@@ -1,4 +1,5 @@
 <?php
+include "php/dadescon.php"; 
 $prefixe = "";
 include "../include/barra_menu.php"
 ?> <!-- INCLUDE BARRA MENÚ-->
@@ -12,11 +13,16 @@ include "../include/barra_menu.php"
             //Mostram totes les estructures que disposa la BD
             $cadena = "SELECT estructura.url_img as url_img, estructura.nom as nomes, url_estructura as url, estructura.descripcio as destructura, categoria.nom as nomcat, categoria.descripcio as dcategoria FROM estructura INNER JOIN categoria ON categoria.id  = estructura.categoria";
             if (isset($_GET["id"])) {
-              $cadena .= " AND estructura.categoria = $_GET[id] ";
+              //Per mostrar les coses d'una única categoria
+              $cadena .= " AND estructura.categoria = ? ";
+              $stmt = $db->prepare($cadena);
+              $stmt->execute(array($_GET["id"]));
+            }else{
+              $stmt = $db->query($cadena);
             }
-            $resultat=mysqli_query($con,$cadena);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC); //Ho passam a array
             $var = 0;
-            while ($row = mysqli_fetch_array($resultat)){
+            foreach ($results as $row) {
               if(($var % 2) == 0){
                 echo "<div class=\"row featurette\">";
                 echo  "<div class=\"col-md-7\" font-size = \"30\">";
@@ -50,7 +56,7 @@ include "../include/barra_menu.php"
               <hr class="featurette-divider">
               <?php $var++;
             }
-            mysqli_close($con);
+            $db = null; //Tancam conexió
             ?>
       </div><!-- /.container -->
 

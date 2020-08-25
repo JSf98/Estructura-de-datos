@@ -1,4 +1,4 @@
-<?php session_start();
+<?php include "dadescon.php";
   if(empty($_POST['usr']) || empty($_POST['passw'])){
     header("Location: ../login.html");
     die(); //Impedeix executar el codi que segueix
@@ -9,16 +9,12 @@
 <body>
 
 <?php
-    include "dadescon.php";
-
     $user = $_POST['usr'];
     $pass = $_POST['passw'];
 
-    $cadena = "SELECT user,password, tipus FROM usuari WHERE user='$user'";
-    $resultat=mysqli_query($con,$cadena);
-    //Comprovam que l'usuari existeix
-    $row=mysqli_fetch_array($resultat);
-
+    $stmt = $db->prepare("SELECT user,password, tipus FROM usuari WHERE user= ?");
+    $stmt->execute(array($user));
+    $row = $stmt->fetch(PDO::FETCH_ASSOC); //Retorna un array indexat per la columna
     if (empty($row)){
         echo("Usuari incorrecta");
         ?><meta http-equiv="refresh" content="2; url=../login.html"><?php

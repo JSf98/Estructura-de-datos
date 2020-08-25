@@ -1,15 +1,16 @@
-<?php
+<?php include "php/dadescon.php";
 $prefixe = "";
 include "../include/barra_menu.php"?>
-<?php
+<?php //Comprovam que hi ha una sessió enmarxa
   if(!isset($_SESSION['usuariactual'])){
     ?><meta http-equiv="refresh" content="0; url=login.html"><?php
   }else{
       $url = basename($_SERVER['PHP_SELF']); // A on estem actualment
-      $cadena = " SELECT * FROM privilegi join opcio on opcio.id = privilegi.opcio and privilegi.perfil = $_SESSION[tipus] where opcio.url = '$url' ";
-      $resultat = mysqli_query($con,$cadena);
-
-      if(empty(mysqli_fetch_array($resultat))){
+      $cadena = " SELECT * FROM privilegi join opcio on opcio.id = privilegi.opcio and privilegi.perfil = ? where opcio.url = '$url' ";
+      $stmt = $db->prepare($cadena);
+      $stmt->execute(array($_SESSION['tipus']));
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      if(empty($row)){
           //Significa que l'usuari que ha entrat no te permisos necessaris
           header("Location: login.html");
           die(); //Impedeix executar el codi que segueix
@@ -106,11 +107,11 @@ include "../include/barra_menu.php"?>
                 <select name = "prioritat" class="custom-select d-block w-100" id="prioritat" required>
                   <?php
                   $cadena = "SELECT * FROM tipusperfil where 1";
-                  $res = mysqli_query($con,$cadena);
-                  while ($reg=mysqli_fetch_array($res)) {
+                  $stmt = $db->query($cadena);
+                  $results = $stmt->fetchAll(PDO::FETCH_ASSOC); //Ho passam a array
+                  foreach ($results as $reg) {
                       echo "<option value='".$reg['id']."'>".$reg['tipus']."</option>";
                   }
-                  mysqli_close($con);
                   ?>
                 </select>
               </div>
@@ -144,11 +145,12 @@ if (isset($_POST['usr'])){ // Basta mirar-ne un que no sigui null
   $pass = $_POST['pass'];
   //$pass2 = $_POST['pass2'];
   $tipus = $_POST['tipus'];
-  include "php/dadescon.php";
+  //include "php/dadescon.php";
 
   $pass = password_hash($pass , PASSWORD_DEFAULT);
-  $cadena = "INSERT INTO usuari (user, password, tipus) VALUES ('$usr', '$pass', $tipus)";
-  mysqli_query($con,$cadena);
+  $cadena = "INSERT INTO usuari (user, password, tipus) VALUES (?,?,?)";
+  $stmt = $db->prepare($cadena);
+  $stmt->execute(array($usr, $pass, $tipus));
   die();
 }
 ?>

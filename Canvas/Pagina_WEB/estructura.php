@@ -1,24 +1,22 @@
 <?php
+include "php/dadescon.php";
 if (isset($_POST['estructura'])){
   //Miram que la estructura no existeixi per quan l'usuari escriu el nom
-  include "php/dadescon.php";
-  $cadena = " SELECT nom FROM estructura WHERE UPPER(nom) = '$_POST[estructura]' ";
-  $res = mysqli_query($con,$cadena);
-  $reg = mysqli_fetch_array($res);
-  if (empty($reg)) {
+  $cadena = " SELECT nom FROM estructura WHERE UPPER(nom) = ? ";
+  $stmt = $db->prepare($cadena);
+  $stmt->execute(array($_POST['estructura']));
+  $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  if (empty($results)) {
       echo "false";
-      mysqli_close($con);
       die();
   }
   echo "true";
-  mysqli_close($con);
   die();
 }
 ?>
 <?php
 //Penja la imatge que ha seleccionat l'usuari
   if (isset($_FILES['img'])){
-    include "php/dadescon.php";
     $reply = array();
     if (($_FILES["img"]["type"] == "image/pjpeg")
           || ($_FILES["img"]["type"] == "image/jpeg")
@@ -43,7 +41,6 @@ if (isset($_POST['estructura'])){
           "path" => ""
         );
       }
-      mysqli_close($con);
       echo json_encode($reply);
       die();
   }
@@ -90,17 +87,19 @@ if (isset($_POST['estructura'])){
 ?>
 
 <?php
+include "../include/barra_menu.php"; //Barra de menú
 $prefixe = "";
-include "../include/barra_menu.php"?>
-<?php
+?>
+<?php //Comprovam que hi ha una sessió enmarxa
   if(!isset($_SESSION['usuariactual'])){
     ?><meta http-equiv="refresh" content="0; url=login.html"><?php
   }else{
       $url = basename($_SERVER['PHP_SELF']); // A on estem actualment
-      $cadena = " SELECT * FROM privilegi join opcio on opcio.id = privilegi.opcio and privilegi.perfil = $_SESSION[tipus] where opcio.url = '$url' ";
-      $resultat = mysqli_query($con,$cadena);
-
-      if(empty(mysqli_fetch_array($resultat))){
+      $cadena = " SELECT * FROM privilegi join opcio on opcio.id = privilegi.opcio and privilegi.perfil = ? where opcio.url = '$url' ";
+      $stmt = $db->prepare($cadena);
+      $stmt->execute(array($_SESSION['tipus']));
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      if(empty($row)){
           //Significa que l'usuari que ha entrat no te permisos necessaris
           header("Location: login.html");
           die(); //Impedeix executar el codi que segueix
@@ -256,11 +255,11 @@ include "../include/barra_menu.php"?>
                 <select name = "prioritat" class="custom-select d-block w-100" id="categoria" required>
                   <?php
                   $cadena = "SELECT * FROM categoria where 1";
-                  $res = mysqli_query($con,$cadena);
-                  while ($reg=mysqli_fetch_array($res)) {
+                  $stmt = $db->query($cadena);
+                  $results = $stmt->fetchAll(PDO::FETCH_ASSOC); //Ho passam a array
+                  foreach ($results as $reg) {
                       echo "<option value='".$reg['id']."'>".$reg['nom']."</option>";
                   }
-                  mysqli_close($con);
                   ?>
                 </select>
               </div>
@@ -337,13 +336,15 @@ if (isset($_POST['nom_estructura'])){ // Basta mirar-ne un que no sigui null
   $index = $_POST['path_index'];
   $categoria = $_POST['categoria'];
 
-  include "php/dadescon.php";
-  $cadena = " SELECT nom FROM estructura WHERE UPPER(nom) = '$nom' ";
-  $res = mysqli_query($con,$cadena);
-  $reg = mysqli_fetch_array($res);
-  if (empty($reg)) { //Tornam a comprovar que la estructura no existeix
-    $cadena = "INSERT INTO estructura (nom, url_img, url_estructura, categoria, descripcio) VALUES ('$nom','$img','$index','$categoria','$txtarea')";
-    mysqli_query($con,$cadena);
+  //include "php/dadescon.php";
+  $cadena = " SELECT nom FROM estructura WHERE UPPER(nom) = ? ";
+  $stmt = $db->prepare($cadena);
+  $stmt->execute(array($nom));
+  $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  if (empty($results)) { //Tornam a comprovar que la estructura no existeix
+    $cadena = "INSERT INTO estructura (nom, url_img, url_estructura, categoria, descripcio) VALUES (?,?,?,?,?)";
+    $stmt = $db->prepare($cadena);
+    $stmt->execute(array($nom,$img,$index,$categoria,$txtarea));
     die();
   }
 }

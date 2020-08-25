@@ -1,17 +1,14 @@
-<?php
+<?php include "php/dadescon.php";
 if (isset($_POST['cat'])){ //Miram que la categoria no existeixi
-
-  include "php/dadescon.php";
-  $cadena = " SELECT nom FROM categoria WHERE UPPER(nom) = '$_POST[cat]' ";
-  $res = mysqli_query($con,$cadena);
-  $reg = mysqli_fetch_array($res);
-  if (empty($reg)) {
+  $cadena = " SELECT nom FROM categoria WHERE UPPER(nom) = ? ";
+  $stmt = $db->prepare($cadena);
+  $stmt->execute(array($_POST['cat']));
+  $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  if (empty($results)) {
       echo "false";
-      mysqli_close($con);
       die();
   }
   echo "true";
-  mysqli_close($con);
   die();
 }
 ?>
@@ -19,15 +16,16 @@ if (isset($_POST['cat'])){ //Miram que la categoria no existeixi
 <?php
 $prefixe = "";
 include "../include/barra_menu.php"?>
-<?php
+<?php //Comprovam que hi ha una sessió enmarxa
   if(!isset($_SESSION['usuariactual'])){
     ?><meta http-equiv="refresh" content="0; url=login.html"><?php
   }else{
       $url = basename($_SERVER['PHP_SELF']); // A on estem actualment
-      $cadena = " SELECT * FROM privilegi join opcio on opcio.id = privilegi.opcio and privilegi.perfil = $_SESSION[tipus] where opcio.url = '$url' ";
-      $resultat = mysqli_query($con,$cadena);
-
-      if(empty(mysqli_fetch_array($resultat))){
+      $cadena = " SELECT * FROM privilegi join opcio on opcio.id = privilegi.opcio and privilegi.perfil = ? where opcio.url = '$url' ";
+      $stmt = $db->prepare($cadena);
+      $stmt->execute(array($_SESSION['tipus']));
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      if(empty($row)){
           //Significa que l'usuari que ha entrat no te permisos necessaris
           header("Location: login.html");
           die(); //Impedeix executar el codi que segueix
@@ -107,6 +105,7 @@ include "../include/barra_menu.php"?>
                 $.post( "categoria.php", { catt : nomcat, descp: desc}).done(function(data) {
                     $("#succes").removeClass("d-none");
                     document.f.namecat.value = "";
+                    document.f.textArea.value = "";
                 });
               }
             </script>
@@ -138,13 +137,15 @@ if (isset($_POST['catt'])){ // Basta mirar-ne un que no sigui null
   $categoria = $_POST['catt'];
   $txtarea = $_POST['descp'];
 
-  include "php/dadescon.php";
-  $cadena = " SELECT nom FROM categoria WHERE UPPER(nom) = '$categoria' ";
-  $res = mysqli_query($con,$cadena);
-  $reg = mysqli_fetch_array($res);
-  if (empty($reg)) { //Tornam a comprovar que la categoria no existeix
-    $cadena = "INSERT INTO categoria (nom, descripcio) VALUES ('$categoria', '$txtarea')";
-    mysqli_query($con,$cadena);
+  //include "php/dadescon.php";
+  $cadena = " SELECT nom FROM categoria WHERE UPPER(nom) = ? ";
+  $stmt = $db->prepare($cadena);
+  $stmt->execute(array($categoria));
+  $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  if (empty($results)) { //Tornam a comprovar que la categoria no existeix
+    $cadena = "INSERT INTO categoria (nom, descripcio) VALUES (?, ?)";
+    $stmt = $db->prepare($cadena);
+    $stmt->execute(array($categoria,$txtarea));
     die();
   }
 }
