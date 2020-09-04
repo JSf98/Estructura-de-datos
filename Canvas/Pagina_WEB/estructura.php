@@ -1,5 +1,6 @@
 <?php
 include "php/dadescon.php";
+$prefixe = "";
 if (isset($_POST['estructura'])){
   //Miram que la estructura no existeixi per quan l'usuari escriu el nom
   $cadena = " SELECT nom FROM estructura WHERE UPPER(nom) = ? ";
