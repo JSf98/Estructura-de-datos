@@ -62,7 +62,7 @@ if(isset($_GET["out"])){
             echo  "<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdown\">";
             foreach ($results as $row){
                 //echo "<li class=\"nav-item\"> <a class=\"nav-link\" href=$row[url]> $row[titol] <span class=\"sr-only\"></span></a> </li>";
-                  echo  "<a class=\"dropdown-item\" href=$row[url]> $row[titol] <span class=\"sr-only\"></span></a>";
+                  echo  "<a class=\"dropdown-item\" href=$prefixe$row[url]> $row[titol] <span class=\"sr-only\"></span></a>";
             }
             echo "</div></li>";?>
             <li class = "nav-item ">
